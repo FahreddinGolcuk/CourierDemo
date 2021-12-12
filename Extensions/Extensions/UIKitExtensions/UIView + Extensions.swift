@@ -97,6 +97,81 @@ public extension UIView {
     
 }
 
+// MARK: - Align Directions
+public extension UIView {
+    @discardableResult
+    func alignLeading(
+        to view: UIView,
+        offset: CGFloat = .zero
+    ) -> NSLayoutConstraint {
+        translatesAutoresizingMaskIntoConstraints = false
+        let isSuperviewRelation = view == superview
+        let anchor = isSuperviewRelation
+            ? view.leadingAnchor
+            : view.trailingAnchor
+        
+        let constraint = leadingAnchor.constraint(
+            equalTo: anchor,
+            constant: offset
+        )
+        return constraint
+    }
+    
+    @discardableResult
+    func alignTrailing(
+        to view: UIView,
+        offset: CGFloat = .zero
+    ) -> NSLayoutConstraint {
+        translatesAutoresizingMaskIntoConstraints = false
+        let isSuperviewRelation = view == superview
+        let anchor = isSuperviewRelation
+            ? view.trailingAnchor
+            : view.leadingAnchor
+        
+        let constraint = trailingAnchor.constraint(
+            equalTo: anchor,
+            constant: offset
+        )
+        return constraint
+    }
+    
+    @discardableResult
+    func alignTop(
+        to view: UIView,
+        offset: CGFloat = .zero
+    ) -> NSLayoutConstraint {
+        translatesAutoresizingMaskIntoConstraints = false
+        let isSuperviewRelation = view == superview
+        let anchor = isSuperviewRelation
+            ? view.topAnchor
+            : view.bottomAnchor
+        
+        let constraint = topAnchor.constraint(
+            equalTo: anchor,
+            constant: offset
+        )
+        return constraint
+    }
+    
+    @discardableResult
+    func alignBottom(
+        to view: UIView,
+        offset: CGFloat = .zero
+    ) -> NSLayoutConstraint {
+        translatesAutoresizingMaskIntoConstraints = false
+        let isSuperviewRelation = view == superview
+        let anchor = isSuperviewRelation
+            ? view.bottomAnchor
+            : view.topAnchor
+        
+        let constraint = bottomAnchor.constraint(
+            equalTo: anchor,
+            constant: offset
+        )
+        return constraint
+    }
+}
+
 // MARK: - Sizing
 public extension UIView {
     @discardableResult

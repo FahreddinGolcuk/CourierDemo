@@ -50,14 +50,19 @@ final class HomeView: UIView {
         $0.sizeAnchor(height: 60)
     }
     
-    private lazy var loginRegisterStackView = UIStackView.create(arrangedSubViews: [loginButton,registerButton],
+    let scrollView = with(UIScrollView(frame: .zero)) {
+        $0.alwaysBounceVertical = true
+    }
+    
+    let stackView = vStack(space: 0)()
+    
+    lazy var loginRegisterStackView = UIStackView.create(arrangedSubViews: [loginButton,registerButton],
                                                                   axis: .horizontal,
                                                                   distribution: .fillEqually,
                                                                   spacing: 16.0)
     
     init() {
         super.init(frame: .zero)
-        backgroundColor = .lightGray
         arrangeViews()
     }
     
@@ -68,23 +73,28 @@ final class HomeView: UIView {
 
 extension HomeView {
     func arrangeViews() {
-        addSubview(nameLabel)
-        nameLabel.anchor(top: safeAreaLayoutGuide.topAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets.setSameInset(with: Constant.padding))
+        [
+            scrollView,
+        ].forEach(addSubview)
         
-        addSubview(welcomeLabel)
-        welcomeLabel.anchor(top: nameLabel.bottomAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets.setSameInset(with: Constant.padding))
+        scrollView.addSubview(stackView)
+        [
+            nameLabel,
+            welcomeLabel,
+            deliveryAddressLabel,
+            loginRegisterStackView
+        ].forEach(stackView.addArrangedSubview(_:))
         
-        addSubview(deliveryAddressLabel)
-        deliveryAddressLabel.anchor(top: welcomeLabel.bottomAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets.setSameInset(with: Constant.padding))
-        
-        addSubview(loginButton)
-        loginButton.anchor(top: deliveryAddressLabel.bottomAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets.setSameInset(with: Constant.padding), size: CGSize(width: screenWidth * 0.35, height: 60))
-        
-        addSubview(registerButton)
-        registerButton.anchor(top: deliveryAddressLabel.bottomAnchor, leading: loginButton.trailingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets.setSameInset(with: Constant.padding), size: CGSize(width: screenWidth * 0.35, height: 60))
-        
-        addSubview(loginRegisterStackView)
-        loginRegisterStackView.anchor(top: deliveryAddressLabel.bottomAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: safeAreaLayoutGuide.trailingAnchor, padding: UIEdgeInsets.setSameInset(with: Constant.padding),size: CGSize(width: screenWidth, height: 70))
+        stackView.addArrangedSubview(nameLabel)
+        [
+            scrollView.alignFitEdges(),
+            stackView.alignFitEdges(),
+            [
+                stackView.alighWidth(UIScreen.main.bounds.size.width)
+            ]
+        ]
+        .flatMap { $0 }
+        .activate()
     }
 }
 

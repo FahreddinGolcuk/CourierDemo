@@ -14,6 +14,18 @@ class HomeViewController: UIViewController, HomeNavigator {
     
     private(set) lazy var bag = DisposeBag()
     
+    
+    private lazy var bestProducts: ProductsViewController = {
+        ProductsViewController(
+            viewModel: productsViewModel
+        )
+    }()
+    
+    override func loadView() {
+        view = viewSource
+        view.backgroundColor = .white
+    }
+    
     init(
         viewModel: @escaping HomeViewModel
     ) {
@@ -29,13 +41,25 @@ class HomeViewController: UIViewController, HomeNavigator {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Home"
-        view = viewSource
         configureNavigationBar()
         bindViewModel()
+        addChildren()
     }
 }
 
 extension HomeViewController {
+    
+    func addChildren() {
+        let controllers = [
+            bestProducts
+        ]
+        controllers.forEach {
+            addChildController(controller: $0) {
+                viewSource.stackView.addArrangedSubview($0)
+            }
+        }
+    }
+    
     private func configureNavigationBar() {
         navigationItem.titleView = viewSource.logoImageView
     }
@@ -45,7 +69,6 @@ extension HomeViewController {
         bag.insert(
             output.showLoginScreen.drive(rx.showLoginScreen)
         )
-        
     }
     
     private var input: HomeViewModelInput {

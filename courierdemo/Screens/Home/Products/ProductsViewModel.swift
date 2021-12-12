@@ -16,6 +16,7 @@ struct ProductsViewModelInput {
 
 struct ProductsViewModelOutput {
     let isLoading: Driver<Bool>
+    let setHeight: Driver<Int>
 }
 
 typealias ProductsViewModel = (ProductsViewModelInput) -> ProductsViewModelOutput
@@ -25,6 +26,16 @@ func productsViewModel(
 ) -> ProductsViewModelOutput {
     let indicator = ActivityIndicator()
     return ProductsViewModelOutput(
-        isLoading: indicator.asDriver()
+        isLoading: indicator.asDriver(),
+        setHeight: getItemCounts(inputs)
     )
 }
+
+func getItemCounts(
+    _ inputs: ProductsViewModelInput
+) -> Driver<Int> {
+    let counts = BehaviorRelay(value: 0)
+    counts.accept(mockProducts.count)
+    return counts.asDriver()
+}
+

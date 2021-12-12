@@ -1,11 +1,12 @@
 //
 //  NSObject + Extensions.swift
-//  Helpers
+//  Extensions
 //
-//  Created by Fahreddin Gölcük on 10.12.2021.
+//  Created by Fahreddin Gölcük on 11.12.2021.
 //
 
 import Foundation
+
 
 public protocol ViewIdentifier: AnyObject {
     var viewIdentifier: String { get }
