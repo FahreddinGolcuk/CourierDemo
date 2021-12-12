@@ -18,8 +18,6 @@ final class ProductsViewController: UIViewController {
     private(set) lazy var viewSource = with(ProductsView()) {
         $0.collectionView.dataSource = self
     }
-    private let isIphone5SizeWidth = UIScreen.main.sizeType == .iPhone4_5
-    private let itemSpacing: CGFloat = 15.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +59,7 @@ extension ProductsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: ProductItemCell = collectionView.dequeue(at: indexPath)
-        print(cell.viewIdentifier)
+        cell.populate.onNext(productList[indexPath.row])
         return cell
     }
 }
@@ -72,4 +70,4 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-public let mockProducts = [Product(_id: "0", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22),Product(_id: "1", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22),Product(_id: "2", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22),Product(_id: "0", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22),Product(_id: "1", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22),Product(_id: "2", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22)]
+public let mockProducts = [Product(_id: "0", calorie: 24, contents: [], description: "123", image: "pizza", name: "ne1e", rating: 44, stockCount: 56, price: 45.22),Product(_id: "1", calorie: 24, contents: [], description: "123", image: "pizza", name: "ne2e", rating: 44, stockCount: 56, price: 45.22),Product(_id: "2", calorie: 24, contents: [], description: "123", image: "pizza", name: "ne3e", rating: 44, stockCount: 56, price: 45.22),Product(_id: "0", calorie: 24, contents: [], description: "123", image: "pizza", name: "ne4e", rating: 44, stockCount: 56, price: 45.22),Product(_id: "1", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22),Product(_id: "2", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22)]

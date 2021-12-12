@@ -52,3 +52,12 @@ final class ProductItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+// MARK: - Populate UI
+extension ProductItemCell {
+    var populate: Binder<Product> {
+        Binder(self) { target, datasource in
+            target.titleLabel.text = datasource.name
+        }
+    }
+}
