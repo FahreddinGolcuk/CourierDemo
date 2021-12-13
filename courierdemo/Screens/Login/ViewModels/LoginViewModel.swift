@@ -10,6 +10,7 @@ import RxCocoa
 import RxSwift
 import RxSwiftExtensions
 import AppEnvironment
+import Entities
 
 struct LoginViewModelInput {
     var viewDidLoad: Observable<Void> = .never()
@@ -24,7 +25,7 @@ struct LoginViewModelOutput {
     let isLoading: Driver<Bool>
     let buttonTitle: Driver<String>
     let verifyButton: Driver<Bool>
-    let loginButtonTapped: Driver<[Category]>
+    let loginButtonTapped: Driver<UserResponse>
 }
 
 typealias LoginViewModel = (LoginViewModelInput) -> LoginViewModelOutput
@@ -34,8 +35,8 @@ func loginViewModel(input: LoginViewModelInput) -> LoginViewModelOutput {
         
     // MARK: - FavoriteProductList Response
     let (response, _) = Observable.merge(input.viewDidLoad.skip(1), input.buttonTapped)
-        .apiCall(activity) { _ -> Single<[Category]> in
-            input.loginApi.fetchCategory()
+        .apiCall(activity) { _ -> Single<UserResponse> in
+            input.loginApi.login(credential: LoginRequest(email: "example@gmail.com", password: "123"))
     }
 
     return LoginViewModelOutput(
@@ -70,11 +71,11 @@ private func loginButtonApprove(
     _ inputs: LoginViewModelInput,
     _ indicator: ActivityIndicator,
     _ buttonTapped: Observable<Void>
-) -> (Driver<[Category]>, Driver<Error>) {
+) -> (Driver<UserResponse>, Driver<Error>) {
     return buttonTapped
         .skip(1)
-        .apiCall(indicator) { _ -> Single<[Category]> in
-            inputs.loginApi.fetchCategory()
+        .apiCall(indicator) { _ -> Single<UserResponse> in
+            inputs.loginApi.login(credential: LoginRequest(email: "", password: ""))
         }
 }
 

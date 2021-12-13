@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Extensions
+import Entities
 
 final class LoginViewController: UIViewController {
     private let loginApi: LoginServiceProtocol
@@ -86,7 +87,7 @@ private extension LoginViewController {
 }
  
 extension Reactive where Base == LoginViewController {
-    var loginButtonTapped: Binder<[Category]> {
+    var loginButtonTapped: Binder<UserResponse> {
         Binder(base) { target, item in
             print("Tikladim",item)
         }
