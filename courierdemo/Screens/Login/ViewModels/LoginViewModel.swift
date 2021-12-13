@@ -17,7 +17,7 @@ struct LoginViewModelInput {
     var email: Observable<String> = .never()
     var password: Observable<String> = .never()
     var buttonTapped: Observable<Void> = .never()
-    var environment = AppEnvironment()
+    var environment = Environment()
 }
 
 struct LoginViewModelOutput {

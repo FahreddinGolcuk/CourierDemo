@@ -7,16 +7,9 @@
 
 import Foundation
 
-public var environment: AppEnvironment!
+var Current: AppEnvironment!
 
-
-public class AppEnvironment {
-    
-    public var userName: String
-    public var email:  String
-    
-    public init() {
-        email = ""
-        userName = ""
-    }
+struct AppEnvironment {
+    var userName: String
+    var email:  String
 }

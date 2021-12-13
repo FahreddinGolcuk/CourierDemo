@@ -54,12 +54,15 @@ final class HomeView: UIView {
         $0.alwaysBounceVertical = true
     }
     
-    let stackView = vStack(space: 0)()
+    let stackView = vStack(space: 8)()
     
-    lazy var loginRegisterStackView = UIStackView.create(arrangedSubViews: [loginButton,registerButton],
-                                                                  axis: .horizontal,
-                                                                  distribution: .fillEqually,
-                                                                  spacing: 16.0)
+    lazy var loginRegisterStackView = hStack(
+        distribution: .fillEqually,
+        space: 4
+    )(
+        loginButton,
+        registerButton
+    )
     
     init() {
         super.init(frame: .zero)
@@ -76,7 +79,7 @@ extension HomeView {
         [
             scrollView,
         ].forEach(addSubview)
-        
+        stackView.applyMargins(8)
         scrollView.addSubview(stackView)
         [
             nameLabel,
@@ -85,7 +88,6 @@ extension HomeView {
             loginRegisterStackView
         ].forEach(stackView.addArrangedSubview(_:))
         
-        stackView.addArrangedSubview(nameLabel)
         [
             scrollView.alignFitEdges(),
             stackView.alignFitEdges(),

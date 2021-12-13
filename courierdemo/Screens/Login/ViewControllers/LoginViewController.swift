@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Extensions
-import AppEnvironment
 
 final class LoginViewController: UIViewController {
     private let loginApi: LoginServiceProtocol
@@ -23,7 +22,7 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.addCloseButtonToController(viewController: self)
         view.backgroundColor = .blue
-        print(88999,environment.userName,environment.email)
+        print(88999 ,Current.userName, Current.email)
         arrangeViews()
         configureNavigationBar()
         bindViewModel()
@@ -72,7 +71,7 @@ private extension LoginViewController {
             email: email,
             password: password,
             buttonTapped: buttonTapped,
-            environment: environment
+            environment: Current
         )
     }
 

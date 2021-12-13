@@ -95,6 +95,35 @@ public extension UIView {
         return constraints
     }
     
+    @discardableResult
+    func alignEdges(
+        leading: CGFloat = .zero,
+        trailing: CGFloat = .zero,
+        top: CGFloat = .zero,
+        bottom: CGFloat = .zero
+    ) -> [NSLayoutConstraint] {
+        translatesAutoresizingMaskIntoConstraints = false
+        let constraints = [
+            leadingAnchor.constraint(
+                equalTo: superview!.leadingAnchor,
+                constant: leading
+            ),
+            trailingAnchor.constraint(
+                equalTo: superview!.trailingAnchor,
+                constant: trailing
+            ),
+            topAnchor.constraint(
+                equalTo: superview!.topAnchor,
+                constant: top
+            ),
+            bottomAnchor.constraint(
+                equalTo: superview!.bottomAnchor,
+                constant: bottom
+            )
+        ]
+        return constraints
+    }
+    
 }
 
 // MARK: - Align Directions

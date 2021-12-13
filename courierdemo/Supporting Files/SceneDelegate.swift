@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import var AppEnvironment.environment
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -19,7 +18,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         // Override point for customization after application launch.
-        setupAppEnvironment()
         courierContainer = CourierDemoBuilder()
         let rootController = courierContainer!.build()
         window?.rootViewController = rootController

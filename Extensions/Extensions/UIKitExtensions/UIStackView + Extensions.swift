@@ -26,6 +26,28 @@ public extension UIStackView {
         return stackView
     }
     
+    @discardableResult
+    func applyMargins(_ margin: CGFloat) -> UIStackView {
+        applyMargins(top: margin, leading: margin, bottom: margin, trailing: margin)
+    }
+    
+    @discardableResult
+    func applyMargins(
+        top: CGFloat = .leastNormalMagnitude,
+        leading: CGFloat = .leastNormalMagnitude,
+        bottom: CGFloat = .leastNormalMagnitude,
+        trailing: CGFloat = .leastNormalMagnitude
+    ) -> UIStackView {
+        isLayoutMarginsRelativeArrangement = true
+        directionalLayoutMargins = NSDirectionalEdgeInsets(
+            top: top,
+            leading: leading,
+            bottom: bottom,
+            trailing: trailing
+        )
+        return self
+    }
+    
 }
 
 public func vStack(
@@ -59,6 +81,7 @@ public func hStack(
         stackView.axis = .horizontal
         stackView.spacing = space
         stackView.alignment = alignment
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         stackView.distribution = distribution
         stackView.isBaselineRelativeArrangement = isBaselineRelativeArrangement
         stackView.isLayoutMarginsRelativeArrangement = isLayoutMarginsRelativeArrangement

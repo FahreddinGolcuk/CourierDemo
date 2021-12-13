@@ -15,8 +15,8 @@ final public class CourierDemoBuilder {
 }
 
 extension CourierDemoBuilder {
-    private func configureEnvironment() {
-        
+    func configureEnvironment() {
+        Current = Environment()
     }
 }
 
@@ -27,8 +27,3 @@ public extension CourierDemoBuilder {
     }
 }
 
-public func setupAppEnvironment() {
-    environment = AppEnvironment()
-    environment.userName = "Fahoo"
-    environment.email = "faho@"
-}
