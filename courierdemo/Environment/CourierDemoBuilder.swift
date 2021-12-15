@@ -22,7 +22,7 @@ extension CourierDemoBuilder {
 
 public extension CourierDemoBuilder {
     func build() -> UIViewController? {
-        let controller = CourierTabbarController()
+        let controller = CourierTabbarController(viewModel: courierTabbarViewModel)
         return controller
     }
 }

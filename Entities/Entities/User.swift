@@ -8,7 +8,7 @@
 import Foundation
 
 public struct User: Codable {
-    let id, email, password, salt, name: String
+    public let id, email, password, salt, name: String
     let v: Int
     let refreshToken: String
 
@@ -44,8 +44,8 @@ public struct LoginRequest: Decodable,Equatable {
 
 // MARK: - UserResponse
 public struct UserResponse: Codable {
-    var message: String
-    var user: User
+    public var message: String
+    public var user: User
     var accessToken: String
     var status: Bool
 }

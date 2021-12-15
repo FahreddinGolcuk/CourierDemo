@@ -16,4 +16,12 @@ struct CartData {
         totalItemCount.asObservable()
     }
     
+    var cartBadgeCountValue: UInt {
+        totalItemCount.value
+    }
+    
+    func updateBadgeCount(with count: UInt) {
+        totalItemCount.accept(count)
+    }
+    
 }

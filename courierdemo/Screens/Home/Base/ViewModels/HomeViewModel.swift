@@ -18,6 +18,7 @@ struct HomeViewModelInput {
 struct HomeViewModelOutput {
     let isLoading: Driver<Bool>
     let showLoginScreen: Driver<Void>
+    let showEntryStack: Driver<Bool>
 }
 
 typealias HomeViewModel = (HomeViewModelInput) -> HomeViewModelOutput
@@ -26,7 +27,8 @@ func homeViewModel(input: HomeViewModelInput) -> HomeViewModelOutput {
     let activity = ActivityIndicator()
     return HomeViewModelOutput(
         isLoading: activity.asDriver(),
-        showLoginScreen: tappedLoginButton(input)
+        showLoginScreen: tappedLoginButton(input),
+        showEntryStack: isShowEntryStack(input)
     )
 }
 
@@ -35,4 +37,12 @@ private func tappedLoginButton(
 ) -> Driver<Void> {
     inputs.tappedLoginScreen
         .asDriver(onErrorDriveWith: .never())
+}
+
+private func isShowEntryStack(
+    _ inputs: HomeViewModelInput
+) -> Driver<Bool> {
+     Current.userId.map { $0.isEmpty }
+    .debug()
+    .asDriver(onErrorDriveWith: .never())
 }

@@ -8,6 +8,7 @@
 import UIKit
 import Helpers
 import Extensions
+import RxSwift
 
 final class HomeView: UIView {
     let logoImageView = with(UIImageView()) {
@@ -81,6 +82,7 @@ extension HomeView {
         ].forEach(addSubview)
         stackView.applyMargins(8)
         scrollView.addSubview(stackView)
+        
         [
             nameLabel,
             welcomeLabel,
@@ -97,6 +99,14 @@ extension HomeView {
         ]
         .flatMap { $0 }
         .activate()
+    }
+}
+
+extension Reactive where Base == HomeView {
+    var isShowEntryStack: Binder<Bool> {
+        Binder(base) { target, isShow in
+            target.loginRegisterStackView.isHidden = !isShow
+        }
     }
 }
 

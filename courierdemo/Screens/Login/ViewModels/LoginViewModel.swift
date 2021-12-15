@@ -18,7 +18,6 @@ struct LoginViewModelInput {
     var email: Observable<String> = .never()
     var password: Observable<String> = .never()
     var buttonTapped: Observable<Void> = .never()
-    var environment = Environment()
 }
 
 struct LoginViewModelOutput {
@@ -37,6 +36,12 @@ func loginViewModel(input: LoginViewModelInput) -> LoginViewModelOutput {
     let (response, _) = Observable.merge(input.viewDidLoad.skip(1), input.buttonTapped)
         .apiCall(activity) { _ -> Single<UserResponse> in
             input.loginApi.login(credential: LoginRequest(email: "example@gmail.com", password: "123"))
+                .do(onSuccess: {
+                    print(666,Current.userName)
+                    Current.userName.accept($0.user.name)
+                    Current.userId.accept($0.user.id)
+                    Current.cartData.updateBadgeCount(with: 4)
+                })
     }
 
     return LoginViewModelOutput(

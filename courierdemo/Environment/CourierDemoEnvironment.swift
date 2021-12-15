@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 var Current: Environment!
 
 struct Environment {
-    var userName: String = ""
-    var email: String = ""
+    var userName = BehaviorRelay<String>(value: "")
+    var userId = BehaviorRelay<String>(value: "")
+    var email = BehaviorRelay<String>(value: "")
     var cartData = CartData()
 }

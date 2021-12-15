@@ -71,8 +71,7 @@ private extension LoginViewController {
             loginApi: loginApi,
             email: email,
             password: password,
-            buttonTapped: buttonTapped,
-            environment: Current
+            buttonTapped: buttonTapped
         )
     }
 

@@ -67,7 +67,8 @@ extension HomeViewController {
     private func bindViewModel() {
         let output = viewModel(input)
         bag.insert(
-            output.showLoginScreen.drive(rx.showLoginScreen)
+            output.showLoginScreen.drive(rx.showLoginScreen),
+            output.showEntryStack.drive(viewSource.rx.isShowEntryStack)
         )
     }
     
