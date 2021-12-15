@@ -37,7 +37,6 @@ class HomeViewController: UIViewController, HomeNavigator {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Home"
@@ -68,12 +67,14 @@ extension HomeViewController {
         let output = viewModel(input)
         bag.insert(
             output.showLoginScreen.drive(rx.showLoginScreen),
-            output.showEntryStack.drive(viewSource.rx.isShowEntryStack)
+            output.showEntryStack.drive(viewSource.rx.isShowEntryStack),
+            output.titleName.drive(viewSource.rx.setNameLabel)
         )
     }
     
     private var input: HomeViewModelInput {
         let loginButtonTapped = viewSource.loginButton.rx.tap.asObservable()
+        
         return HomeViewModelInput(
             viewDidLoad: .just(()),
             tappedLoginScreen: loginButtonTapped

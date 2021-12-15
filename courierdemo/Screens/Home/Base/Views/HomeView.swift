@@ -108,6 +108,12 @@ extension Reactive where Base == HomeView {
             target.loginRegisterStackView.isHidden = !isShow
         }
     }
+    
+    var setNameLabel: Binder<String> {
+        Binder(base) { target, title in
+            target.nameLabel.text = title
+        }
+    }
 }
 
 private enum Constant {

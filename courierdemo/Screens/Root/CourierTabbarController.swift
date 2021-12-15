@@ -34,7 +34,6 @@ class CourierTabbarController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
 }
 
 extension CourierTabbarController {
