@@ -31,24 +31,27 @@ typealias LoginViewModel = (LoginViewModelInput) -> LoginViewModelOutput
 
 func loginViewModel(input: LoginViewModelInput) -> LoginViewModelOutput {
     let activity = ActivityIndicator()
-        
+    
+    let credential = Observable.combineLatest(input.email, input.password)
+    
     // MARK: - FavoriteProductList Response
-    let (response, _) = Observable.merge(input.viewDidLoad.skip(1), input.buttonTapped)
-        .apiCall(activity) { _ -> Single<UserResponse> in
-            input.loginApi.login(credential: LoginRequest(email: "example@gmail.com", password: "123"))
+    let (loginResponse, _) =
+    Observable.merge(input.viewDidLoad.skip(1), input.buttonTapped)
+        .withLatestFrom(credential)
+        .apiCall(activity) { credential -> Single<UserResponse> in
+            input.loginApi.login(credential: LoginRequest(email: credential.0, password: credential.1))
                 .do(onSuccess: {
-                    print(666,Current.userName)
                     Current.userName.accept($0.user.name)
                     Current.userId.accept($0.user.id)
                     Current.cartData.updateBadgeCount(with: 4)
                 })
-    }
+        }
 
     return LoginViewModelOutput(
         isLoading: activity.asDriver(),
         buttonTitle: buttonTitle(input.viewDidLoad),
         verifyButton: verifyButton(input.email, input.password),
-        loginButtonTapped: response
+        loginButtonTapped: loginResponse
     )
 }
 
