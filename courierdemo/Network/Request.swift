@@ -13,12 +13,14 @@ public func Request<T: Decodable>(with url: String, httpMethod: HTTPMethod = .ge
         return
     }
     let request = NSMutableURLRequest(url: url)
-    do {
-           request.httpBody = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
-    } catch let error {
-           print(error.localizedDescription)
+    if ( httpMethod == .post ) {
+        do {
+               request.httpBody = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+                request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+        } catch let error {
+               print(error.localizedDescription)
+        }
     }
-    request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
     request.httpMethod = httpMethod.rawValue
     URLSession.shared.dataTask(with: request as URLRequest) { data, _, error in
         if let error = error {

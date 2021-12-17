@@ -13,7 +13,7 @@ import func Helpers.with
 final class ProductsViewController: UIViewController {
     let bag = DisposeBag()
     private let viewModel: ProductsViewModel
-    fileprivate var productList: [Product] = mockProducts
+    fileprivate var productList: [Product] = []
     
     private(set) lazy var viewSource = with(ProductsView()) {
         $0.collectionView.dataSource = self
@@ -43,12 +43,15 @@ private extension ProductsViewController {
         let outputs = viewModel(inputs)
         
         bag.insert(
-            outputs.setHeight.drive(viewSource.rx.setHeight)
+            outputs.setHeight.drive(viewSource.rx.setHeight),
+            outputs.setDatasource.drive(rx.setDataSource)
         )
     }
     
     var inputs: ProductsViewModelInput {
-        return ProductsViewModelInput()
+        return ProductsViewModelInput(
+            viewDidLoad: .just(())
+        )
     }
 }
 
@@ -70,4 +73,11 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-public let mockProducts = [Product(_id: "0", calorie: 24, contents: [], description: "123", image: "pizza", name: "ne1e", rating: 44, stockCount: 56, price: 45.22),Product(_id: "1", calorie: 24, contents: [], description: "123", image: "pizza", name: "ne2e", rating: 44, stockCount: 56, price: 45.22),Product(_id: "2", calorie: 24, contents: [], description: "123", image: "pizza", name: "ne3e", rating: 44, stockCount: 56, price: 45.22),Product(_id: "0", calorie: 24, contents: [], description: "123", image: "pizza", name: "ne4e", rating: 44, stockCount: 56, price: 45.22),Product(_id: "1", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22),Product(_id: "2", calorie: 24, contents: [], description: "123", image: "pizza", name: "nee", rating: 44, stockCount: 56, price: 45.22)]
+private extension Reactive where Base == ProductsViewController {
+    var setDataSource: Binder<[Product]> {
+        Binder(base) { target, datasource in
+            target.productList = datasource
+            target.viewSource.collectionView.reloadData()
+        }
+    }
+}

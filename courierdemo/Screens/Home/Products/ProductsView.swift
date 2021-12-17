@@ -28,7 +28,6 @@ final class ProductsView: UIView {
             collectionViewLayout: flowLayout
         )
     ) {
-        $0.backgroundColor = .red
         $0.isScrollEnabled = false
         $0.register(
             ProductItemCell.self,
@@ -57,7 +56,6 @@ final class ProductsView: UIView {
 extension Reactive where Base == ProductsView {
     var setHeight: Binder<Int> {
         Binder(base) { target, itemCount in
-            print(55,itemCount)
             target.stackView.alignHeight(target.calculateHeight(itemCount: UInt(itemCount)))
                 .activate()
         }
@@ -68,15 +66,15 @@ extension Reactive where Base == ProductsView {
 private extension ProductsView {
     var itemSize: CGSize {
         let totalSpaceSize = isIphone5SizeWidth
-            ? (itemSpacing * 4)
-            : (itemSpacing * 5)
+        ? (itemSpacing * 3.5)
+            : (itemSpacing * 4)
         
         let windowWidth = UIScreen.main.bounds.size.width
         let itemWidth = isIphone5SizeWidth
-            ? ((windowWidth - totalSpaceSize) / 3)
-            : ((windowWidth - totalSpaceSize) / 4)
+        ? ((windowWidth - totalSpaceSize) / 1.5)
+            : ((windowWidth - totalSpaceSize) / 2)
         
-        let itemHeight = itemWidth * 1.08
+        let itemHeight = itemWidth * 1.5
         let itemSize = CGSize(width: itemWidth, height: itemHeight)
         return itemSize
     }
