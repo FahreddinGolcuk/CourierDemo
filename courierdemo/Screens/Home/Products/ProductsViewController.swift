@@ -49,8 +49,13 @@ private extension ProductsViewController {
     }
     
     var inputs: ProductsViewModelInput {
+        let productSelected = viewSource.collectionView.rx.itemSelected
+            .asObservable()
+            .observe(on: MainScheduler.asyncInstance)
+        
         return ProductsViewModelInput(
-            viewDidLoad: .just(())
+            viewDidLoad: .just(()),
+            productSelected: productSelected
         )
     }
 }

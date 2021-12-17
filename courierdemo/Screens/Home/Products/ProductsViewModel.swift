@@ -14,6 +14,7 @@ import Entities
 struct ProductsViewModelInput {
     var viewDidLoad: Observable<Void> = .never()
     var productApi: ProductAPIClient = .live
+    var productSelected: Observable<IndexPath> = .never()
 }
 
 struct ProductsViewModelOutput {
@@ -28,6 +29,8 @@ func productsViewModel(
     _ inputs: ProductsViewModelInput
 ) -> ProductsViewModelOutput {
     let indicator = ActivityIndicator()
+    
+    inputs.productSelected.subscribe { index in print(index.map { $0.row }) }
     
     let (response, _) =  inputs.viewDidLoad
         .apiCall(indicator) { _ -> Single<[Product]> in

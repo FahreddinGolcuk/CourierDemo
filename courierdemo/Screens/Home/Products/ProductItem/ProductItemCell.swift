@@ -13,6 +13,12 @@ import Extensions
 final class ProductItemCell: UICollectionViewCell {
     private(set) var bag = DisposeBag()
     
+    private lazy var addProductButton = with(UIButton(type: .custom)) {
+        let image = UIImage(named: "add_to_cart")
+        $0.setImage(image, for: .normal)
+        $0.isAccessibilityElement = false
+    }
+    
     private lazy var containerView = with(UIView()) {
         $0.layer.cornerRadius = 15.0
         $0.layer.masksToBounds = true
@@ -46,7 +52,6 @@ final class ProductItemCell: UICollectionViewCell {
         $0.textColor = UIColor.Theme.primary
         $0.textAlignment = .center
     }
-
     
     lazy var stackView = vStack(
     space: 8
@@ -65,7 +70,7 @@ final class ProductItemCell: UICollectionViewCell {
            stackView
         ]
         .forEach(containerView.addSubview(_:))
-        
+        addSubview(addProductButton)
         [
             stackView.alignFitEdges(),
             containerView.alignFitEdges(),
@@ -76,10 +81,35 @@ final class ProductItemCell: UICollectionViewCell {
         .flatMap { $0 }
         .activate()
 
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+        isAccessibilityElement = true
+        accessibilityTraits = .none
+        
+        _ = addProductButton.rx.tap
+            .subscribe { _ in print("tiklad") }
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Layout SubViews
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let frameX = bounds.width - 32.0
+        addProductButton.bounds = CGRect(
+            x: frameX,
+            y: 0,
+            width: 32.0,
+            height: 32.0
+        )
+        addProductButton.center = CGPoint(
+            x: self.bounds.width - 12.0,
+            y: 16.0
+        )
     }
 }
 

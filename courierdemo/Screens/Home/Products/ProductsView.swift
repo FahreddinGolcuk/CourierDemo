@@ -18,7 +18,6 @@ final class ProductsView: UIView {
         $0.scrollDirection = .vertical
         $0.itemSize = itemSize
         $0.minimumLineSpacing = itemSpacing
-        $0.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         $0.invalidateLayout()
     }
     
@@ -66,15 +65,15 @@ extension Reactive where Base == ProductsView {
 private extension ProductsView {
     var itemSize: CGSize {
         let totalSpaceSize = isIphone5SizeWidth
-        ? (itemSpacing * 3.5)
-            : (itemSpacing * 4)
+        ? (itemSpacing * 2.5)
+            : (itemSpacing * 3)
         
         let windowWidth = UIScreen.main.bounds.size.width
         let itemWidth = isIphone5SizeWidth
-        ? ((windowWidth - totalSpaceSize) / 1.5)
-            : ((windowWidth - totalSpaceSize) / 2)
+        ? ((windowWidth - totalSpaceSize) / 1.8)
+        : ((windowWidth - totalSpaceSize) / 3.6)
         
-        let itemHeight = itemWidth * 1.5
+        let itemHeight = itemWidth * 2
         let itemSize = CGSize(width: itemWidth, height: itemHeight)
         return itemSize
     }

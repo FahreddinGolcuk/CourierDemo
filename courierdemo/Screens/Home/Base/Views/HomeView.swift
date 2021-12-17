@@ -36,6 +36,11 @@ final class HomeView: UIView {
         $0.font = UIFont.Fonts.boldLarge
     }
     
+    let favoritesProductsLabel = with(UILabel()){
+        $0.text = "Most Ordered and On Sale 💫"
+        $0.font = UIFont.Fonts.boldMedium
+    }
+    
     let loginButton = with(UIButton()) {
         $0.layer.cornerRadius = 8
         $0.layer.borderWidth = 2
@@ -90,7 +95,8 @@ extension HomeView {
             welcomeLabel,
             promotionView,
             deliveryAddressLabel,
-            loginRegisterStackView
+            loginRegisterStackView,
+            favoritesProductsLabel
         ].forEach(stackView.addArrangedSubview(_:))
         
         [

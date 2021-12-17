@@ -53,6 +53,7 @@
 		47C5A222276CBDA200BA3103 /* Entities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C5A221276CBDA200BA3103 /* Entities.framework */; };
 		47C5A223276CBDA200BA3103 /* Entities.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47C5A221276CBDA200BA3103 /* Entities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47C5A225276CCCF900BA3103 /* ProductAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A224276CCCF900BA3103 /* ProductAPIClient.swift */; };
+		47C5A227276CE28700BA3103 /* ProductsNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A226276CE28700BA3103 /* ProductsNavigation.swift */; };
 		47DD1A2D2758FA0200487199 /* Extensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47DD1A2C2758FA0200487199 /* Extensions.framework */; };
 		47DD1A2E2758FA0200487199 /* Extensions.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47DD1A2C2758FA0200487199 /* Extensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47DD1A5F2758FB3900487199 /* Helpers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47DD1A5E2758FB3900487199 /* Helpers.framework */; };
@@ -136,6 +137,7 @@
 		47C5A21D276CB8FE00BA3103 /* CategoryAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAPIClient.swift; sourceTree = "<group>"; };
 		47C5A221276CBDA200BA3103 /* Entities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Entities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47C5A224276CCCF900BA3103 /* ProductAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductAPIClient.swift; sourceTree = "<group>"; };
+		47C5A226276CE28700BA3103 /* ProductsNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsNavigation.swift; sourceTree = "<group>"; };
 		47DD1A2C2758FA0200487199 /* Extensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Extensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47DD1A5E2758FB3900487199 /* Helpers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Helpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E4739B273955E4007B97C4 /* courierdemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = courierdemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -398,6 +400,7 @@
 				47C5A1AB2763B1C100BA3103 /* ProductsViewController.swift */,
 				47C5A1AD2763B1CE00BA3103 /* ProductsViewModel.swift */,
 				47C5A1AF2763B1D900BA3103 /* ProductsView.swift */,
+				47C5A226276CE28700BA3103 /* ProductsNavigation.swift */,
 			);
 			path = Products;
 			sourceTree = "<group>";
@@ -703,6 +706,7 @@
 				47C5A211276A84A300BA3103 /* CampaignView.swift in Sources */,
 				47290354275674E900FF916F /* Colors.swift in Sources */,
 				47C5A218276B878000BA3103 /* PromotionView.swift in Sources */,
+				47C5A227276CE28700BA3103 /* ProductsNavigation.swift in Sources */,
 				4744EFE62750486400A91D09 /* NetworkError.swift in Sources */,
 				47C5A225276CCCF900BA3103 /* ProductAPIClient.swift in Sources */,
 				47C5A21E276CB8FF00BA3103 /* CategoryAPIClient.swift in Sources */,
