@@ -11,6 +11,9 @@ import Extensions
 import RxSwift
 
 final class HomeView: UIView {
+    
+    let promotionView = PromotionView()
+    
     let logoImageView = with(UIImageView()) {
         let logo = #imageLiteral(resourceName: "app-logo")
         $0.image = logo
@@ -77,15 +80,15 @@ final class HomeView: UIView {
 
 extension HomeView {
     func arrangeViews() {
-        [
-            scrollView,
-        ].forEach(addSubview)
         stackView.applyMargins(8)
+        
+        addSubview(scrollView)
         scrollView.addSubview(stackView)
         
         [
             nameLabel,
             welcomeLabel,
+            promotionView,
             deliveryAddressLabel,
             loginRegisterStackView
         ].forEach(stackView.addArrangedSubview(_:))
@@ -94,7 +97,8 @@ extension HomeView {
             scrollView.alignFitEdges(),
             stackView.alignFitEdges(),
             [
-                stackView.alighWidth(UIScreen.main.bounds.size.width)
+                stackView.alighWidth(screenWidth),
+                promotionView.alignHeight(screenHeight * 0.15)
             ]
         ]
         .flatMap { $0 }
@@ -118,11 +122,4 @@ extension Reactive where Base == HomeView {
 
 private enum Constant {
     static let padding: CGFloat = 4
-}
-
-extension UIEdgeInsets {
-    static func setSameInset(with value: CGFloat) -> UIEdgeInsets {
-        return UIEdgeInsets(top: value, left: value, bottom: value, right: value)
-    }
-}
-                         
+}                    

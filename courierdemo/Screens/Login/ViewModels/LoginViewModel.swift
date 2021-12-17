@@ -22,7 +22,6 @@ struct LoginViewModelInput {
 
 struct LoginViewModelOutput {
     let isLoading: Driver<Bool>
-    let buttonTitle: Driver<String>
     let verifyButton: Driver<Bool>
     let loginButtonTapped: Driver<UserResponse>
 }
@@ -49,20 +48,9 @@ func loginViewModel(input: LoginViewModelInput) -> LoginViewModelOutput {
 
     return LoginViewModelOutput(
         isLoading: activity.asDriver(),
-        buttonTitle: buttonTitle(input.viewDidLoad),
         verifyButton: verifyButton(input.email, input.password),
         loginButtonTapped: loginResponse
     )
-}
-
-private func buttonTitle(
-    _ viewDidLoad: Observable<Void>
-) -> Driver<String> {
-    let examp = false
-    return viewDidLoad
-        .debug()
-        .map { examp ? "Deneme 1" : "Deneme 2"}
-        .asDriver(onErrorDriveWith: .never())
 }
 
 private func verifyButton(

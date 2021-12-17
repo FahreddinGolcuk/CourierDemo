@@ -55,7 +55,9 @@ public func vStack(
     alignment: UIStackView.Alignment = .fill,
     space: CGFloat = 0,
     isBaselineRelativeArrangement: Bool = false,
-    isLayoutMarginsRelativeArrangement: Bool = false
+    isLayoutMarginsRelativeArrangement: Bool = false,
+    backgroundColor: UIColor? = nil,
+    cornerRadius: Double = 0
 ) -> (UIView...) -> UIStackView {
     { (views: UIView...) in
         let stackView = UIStackView(arrangedSubviews: views)
@@ -65,6 +67,8 @@ public func vStack(
         stackView.distribution = distribution
         stackView.isBaselineRelativeArrangement = isBaselineRelativeArrangement
         stackView.isLayoutMarginsRelativeArrangement = isLayoutMarginsRelativeArrangement
+        stackView.backgroundColor = backgroundColor
+        stackView.layer.cornerRadius = cornerRadius
         return stackView
     }
 }
@@ -74,7 +78,9 @@ public func hStack(
     alignment: UIStackView.Alignment = .fill,
     space: CGFloat = 0,
     isBaselineRelativeArrangement: Bool = false,
-    isLayoutMarginsRelativeArrangement: Bool = false
+    isLayoutMarginsRelativeArrangement: Bool = false,
+    backgroundColor: UIColor? = nil,
+    cornerRadius: Double = 0
 ) -> (UIView...) -> UIStackView {
     { (views: UIView...) in
         let stackView = UIStackView(arrangedSubviews: views)
@@ -85,6 +91,8 @@ public func hStack(
         stackView.distribution = distribution
         stackView.isBaselineRelativeArrangement = isBaselineRelativeArrangement
         stackView.isLayoutMarginsRelativeArrangement = isLayoutMarginsRelativeArrangement
+        stackView.backgroundColor = backgroundColor
+        stackView.layer.cornerRadius = cornerRadius
         return stackView
     }
 }

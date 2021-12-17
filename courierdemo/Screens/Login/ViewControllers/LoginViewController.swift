@@ -53,7 +53,6 @@ private extension LoginViewController {
     private func bindViewModel() {
         let output = viewModel(input)
         bag.insert(
-            output.buttonTitle.drive(viewSource.rx.setButtonTitle),
             output.verifyButton.drive(viewSource.rx.verifyButton),
             output.loginButtonTapped.drive(rx.loginButtonTapped),
             output.isLoading.drive(rx.showLoading)

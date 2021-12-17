@@ -51,6 +51,7 @@
 		47C5A20F276A848B00BA3103 /* CampaignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A20E276A848B00BA3103 /* CampaignViewController.swift */; };
 		47C5A211276A84A300BA3103 /* CampaignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A210276A84A300BA3103 /* CampaignView.swift */; };
 		47C5A213276A84AE00BA3103 /* CampaignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A212276A84AE00BA3103 /* CampaignViewModel.swift */; };
+		47C5A218276B878000BA3103 /* PromotionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A217276B877F00BA3103 /* PromotionView.swift */; };
 		47DD1A2D2758FA0200487199 /* Extensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47DD1A2C2758FA0200487199 /* Extensions.framework */; };
 		47DD1A2E2758FA0200487199 /* Extensions.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47DD1A2C2758FA0200487199 /* Extensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47DD1A5F2758FB3900487199 /* Helpers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47DD1A5E2758FB3900487199 /* Helpers.framework */; };
@@ -131,6 +132,7 @@
 		47C5A20E276A848B00BA3103 /* CampaignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignViewController.swift; sourceTree = "<group>"; };
 		47C5A210276A84A300BA3103 /* CampaignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignView.swift; sourceTree = "<group>"; };
 		47C5A212276A84AE00BA3103 /* CampaignViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignViewModel.swift; sourceTree = "<group>"; };
+		47C5A217276B877F00BA3103 /* PromotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionView.swift; sourceTree = "<group>"; };
 		47DD1A2C2758FA0200487199 /* Extensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Extensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47DD1A5E2758FB3900487199 /* Helpers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Helpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E4739B273955E4007B97C4 /* courierdemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = courierdemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -312,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				477B8FD02745C06F00968541 /* HomeView.swift */,
+				47C5A217276B877F00BA3103 /* PromotionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -686,6 +689,7 @@
 				47C5A1AC2763B1C100BA3103 /* ProductsViewController.swift in Sources */,
 				47C5A211276A84A300BA3103 /* CampaignView.swift in Sources */,
 				47290354275674E900FF916F /* Colors.swift in Sources */,
+				47C5A218276B878000BA3103 /* PromotionView.swift in Sources */,
 				4744EFE62750486400A91D09 /* NetworkError.swift in Sources */,
 				47C5A20C276A7ED200BA3103 /* ProfileViewModel.swift in Sources */,
 				477B8FD52747975000968541 /* HomeNavigator.swift in Sources */,

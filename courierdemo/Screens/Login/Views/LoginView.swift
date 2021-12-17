@@ -42,18 +42,11 @@ final class LoginView: UIView {
         loginButton.setTitle("Login", for: .normal)
         loginButton.backgroundColor = .orange
         loginButton.layer.cornerRadius = 8
-        loginButton.sizeAnchor(width: screenWidth * 0.6, height: screenHeight * 0.1)
+        loginButton.sizeAnchor(width: screenWidth * 0.6, height: 80)
         return loginButton
     }()
     
-    private(set) lazy var stackView: UIStackView = {
-       let stack = UIStackView(arrangedSubviews: [emailInput, passwordInput, loginButton])
-        stack.spacing = 8
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.alignment = .center
-        stack.axis = .vertical
-        return stack
-    }()
+    private(set) lazy var stack = vStack(space: 8)()
     
     init() {
         super.init(frame: .zero)
@@ -68,18 +61,24 @@ final class LoginView: UIView {
 
 private extension LoginView {
     func arrangeViews() {
-        addSubview(stackView)
-        stackView.anchor(top: safeAreaLayoutGuide.topAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: safeAreaLayoutGuide.trailingAnchor)
+        addSubview(stack)
+        [
+            emailInput,
+            passwordInput,
+            loginButton
+        ].forEach(stack.addArrangedSubview(_:))
+        stack.applyMargins(8)
+        [
+            stack.alignTop(to: self),
+            stack.alignLeading(to: self),
+            stack.alignTrailing(to: self)
+        ]
+        .compactMap { $0 }
+        .activate()
     }
 }
 
 extension Reactive where Base == LoginView {
-    var setButtonTitle: Binder<String> {
-        Binder(base) { target, title in
-            target.loginButton.setTitle(title, for: .normal)
-        }
-    }
-    
     var verifyButton: Binder<Bool> {
         Binder(base) { target, isVerify in
             if isVerify {

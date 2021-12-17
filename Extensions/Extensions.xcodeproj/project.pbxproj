@@ -15,6 +15,7 @@
 		47C5A1EE2763FE3A00BA3103 /* UICollectionView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A1ED2763FE3A00BA3103 /* UICollectionView + Extensions.swift */; };
 		47C5A1F22763FF0C00BA3103 /* NSObject + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A1F12763FF0C00BA3103 /* NSObject + Extensions.swift */; };
 		47C5A1F72764204200BA3103 /* UIScreen + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A1F62764204200BA3103 /* UIScreen + Extensions.swift */; };
+		47C5A21A276C6C1E00BA3103 /* UIEdgeInsets + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A219276C6C1E00BA3103 /* UIEdgeInsets + Extensions.swift */; };
 		47DD1A262758F9E200487199 /* Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 47DD1A252758F9E200487199 /* Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		47DD1A65275900FD00487199 /* UIStackView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DD1A64275900FD00487199 /* UIStackView + Extensions.swift */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,7 @@
 		47C5A1ED2763FE3A00BA3103 /* UICollectionView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView + Extensions.swift"; sourceTree = "<group>"; };
 		47C5A1F12763FF0C00BA3103 /* NSObject + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject + Extensions.swift"; sourceTree = "<group>"; };
 		47C5A1F62764204200BA3103 /* UIScreen + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen + Extensions.swift"; sourceTree = "<group>"; };
+		47C5A219276C6C1E00BA3103 /* UIEdgeInsets + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets + Extensions.swift"; sourceTree = "<group>"; };
 		47DD1A222758F9E200487199 /* Extensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Extensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47DD1A252758F9E200487199 /* Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Extensions.h; sourceTree = "<group>"; };
 		47DD1A64275900FD00487199 /* UIStackView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + Extensions.swift"; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				47C5A1ED2763FE3A00BA3103 /* UICollectionView + Extensions.swift */,
 				47C5A1F12763FF0C00BA3103 /* NSObject + Extensions.swift */,
 				47C5A1F62764204200BA3103 /* UIScreen + Extensions.swift */,
+				47C5A219276C6C1E00BA3103 /* UIEdgeInsets + Extensions.swift */,
 			);
 			path = UIKitExtensions;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 				4714CA15275F6A8A00FE79C1 /* UIView + Extensions.swift in Sources */,
 				4714CA17275F6C3B00FE79C1 /* UIViewController + Extensions.swift in Sources */,
 				47DD1A65275900FD00487199 /* UIStackView + Extensions.swift in Sources */,
+				47C5A21A276C6C1E00BA3103 /* UIEdgeInsets + Extensions.swift in Sources */,
 				47C5A1EE2763FE3A00BA3103 /* UICollectionView + Extensions.swift in Sources */,
 				4714CA19275F6C7500FE79C1 /* UINavigationBar + Extensions.swift in Sources */,
 				47C5A1F72764204200BA3103 /* UIScreen + Extensions.swift in Sources */,
