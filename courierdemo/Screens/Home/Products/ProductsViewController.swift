@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 import RxSwift
 import func Helpers.with
+import Extensions
 
-final class ProductsViewController: UIViewController {
+final class ProductsViewController: UIViewController, ProductsNavigator {
     let bag = DisposeBag()
     private let viewModel: ProductsViewModel
     fileprivate var productList: [Product] = []
@@ -44,7 +45,8 @@ private extension ProductsViewController {
         
         bag.insert(
             outputs.setHeight.drive(viewSource.rx.setHeight),
-            outputs.setDatasource.drive(rx.setDataSource)
+            outputs.setDatasource.drive(rx.setDataSource),
+            outputs.showProductDetail.drive(rx.showProductDetail)
         )
     }
     
@@ -83,6 +85,12 @@ private extension Reactive where Base == ProductsViewController {
         Binder(base) { target, datasource in
             target.productList = datasource
             target.viewSource.collectionView.reloadData()
+        }
+    }
+    
+    var showProductDetail: Binder<IndexPath> {
+        Binder(base) { target, datasource in
+            target.showProductDetail(data: target.productList[datasource.row])
         }
     }
 }

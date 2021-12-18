@@ -21,6 +21,7 @@ struct ProductsViewModelOutput {
     let isLoading: Driver<Bool>
     let setHeight: Driver<Int>
     let setDatasource: Driver<[Product]>
+    let showProductDetail: Driver<IndexPath>
 }
 
 typealias ProductsViewModel = (ProductsViewModelInput) -> ProductsViewModelOutput
@@ -30,8 +31,6 @@ func productsViewModel(
 ) -> ProductsViewModelOutput {
     let indicator = ActivityIndicator()
     
-    inputs.productSelected.subscribe { index in print(index.map { $0.row }) }
-    
     let (response, _) =  inputs.viewDidLoad
         .apiCall(indicator) { _ -> Single<[Product]> in
             inputs.productApi.favoriteProducts()
@@ -40,6 +39,7 @@ func productsViewModel(
     return ProductsViewModelOutput(
         isLoading: indicator.asDriver(),
         setHeight: response.map { $0.count },
-        setDatasource: response
+        setDatasource: response,
+        showProductDetail: inputs.productSelected.asDriver(onErrorDriveWith: .never())
     )
 }
