@@ -88,7 +88,7 @@ final class ProductItemCell: UICollectionViewCell {
         accessibilityTraits = .none
         
         _ = addProductButton.rx.tap
-            .subscribe { _ in print("tiklad") }
+            .subscribe { _ in self.setAmountView() }
 
     }
     
@@ -124,5 +124,37 @@ extension ProductItemCell {
             target.price.text = "$ \(datasource.price)"
             target.image.image = UIImage(named: datasource.image)
         }
+    }
+}
+
+extension ProductItemCell {
+    func setAmountView() {
+        addProductButton.isHidden = true
+        let editView = ProductItemAmountView()
+        editView.isAccessibilityElement = false
+        
+        let frameX = 5
+        
+        let width = 80
+        
+        editView.frame = CGRect(
+            x: frameX,
+            y: 5,
+            width: width,
+            height: (width / 3)
+        )
+        _ = editView.leftButton.rx.tap
+            .subscribe(onNext: {
+                print("left")
+            }).disposed(by: bag)
+        _ = editView.rightButton.rx.tap
+            .subscribe(onNext: {
+                print("right")
+            }).disposed(by: bag)
+        addSubview(editView)
+    }
+    
+    func setAddView() {
+        
     }
 }

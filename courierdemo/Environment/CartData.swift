@@ -11,6 +11,7 @@ import RxCocoa
 
 struct CartData {
     private let totalItemCount = BehaviorRelay<UInt>(value: 0)
+    private let basketInfo = BehaviorRelay<[String: UInt]>(value: [:])
     
     var cartBadgeCount: Observable<UInt> {
         totalItemCount.asObservable()
@@ -22,6 +23,11 @@ struct CartData {
     
     func updateBadgeCount(with count: UInt) {
         totalItemCount.accept(count)
+    }
+    
+    func setBasketInfo(with info: BasketItemInfo) {
+        let dict = [info.productId: info.quantity]
+        basketInfo.accept(dict)
     }
     
 }
