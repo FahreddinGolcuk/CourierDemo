@@ -70,6 +70,14 @@ extension ProductsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: ProductItemCell = collectionView.dequeue(at: indexPath)
         cell.populate.onNext(productList[indexPath.row])
+        let inputs = ProductItemViewModelInput(increaseButtonTapped: cell.increaseButtonTappedEvent, decreaseButtonTapped: cell.decreaseButtonTappedEvent, addProductButtonTapped: cell.plusButtonTappedEvent, product: productList[indexPath.row])
+        let output = productItemViewModel(inputs)
+        
+        cell.bag.insert(
+            output.increaseAmount.drive(cell.updateView),
+            output.decreaseAmount.drive(cell.updateView),
+            output.addTappedAmount.drive(cell.updateView)
+        )
         return cell
     }
 }

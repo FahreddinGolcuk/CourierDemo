@@ -12,6 +12,16 @@ import Extensions
 
 final class ProductItemCell: UICollectionViewCell {
     private(set) var bag = DisposeBag()
+    private let increaseButtonTapObserver: AnyObserver<Void>
+    let increaseButtonTappedEvent: Observable<Void>
+    
+    private let decreaseButtonTapObserver: AnyObserver<Void>
+    let decreaseButtonTappedEvent: Observable<Void>
+
+    private let plusButtonTapObserver: AnyObserver<Void>
+    let plusButtonTappedEvent: Observable<Void>
+    
+    var editingAmountView = ProductItemAmountView()
     
     private lazy var addProductButton = with(UIButton(type: .custom)) {
         let image = UIImage(named: "add_to_cart")
@@ -65,10 +75,29 @@ final class ProductItemCell: UICollectionViewCell {
     )
     
     override init(frame: CGRect) {
+        (increaseButtonTapObserver, increaseButtonTappedEvent) = Observable<Void>.pipe()
+        (decreaseButtonTapObserver, decreaseButtonTappedEvent) = Observable<Void>.pipe()
+        (plusButtonTapObserver, plusButtonTappedEvent) = Observable<Void>.pipe()
+        
         super.init(frame: frame)
         addSubview(containerView)
+        
+        editingAmountView.isAccessibilityElement = false
+        
+        let frameX = 5
+        let width = 80
+        
+        editingAmountView.frame = CGRect(
+            x: frameX,
+            y: 5,
+            width: width,
+            height: (width / 3)
+        )
+        editingAmountView.isHidden = true
+        
         [
-           stackView
+           stackView,
+           editingAmountView
         ]
         .forEach(containerView.addSubview(_:))
         addSubview(addProductButton)
@@ -88,8 +117,19 @@ final class ProductItemCell: UICollectionViewCell {
         accessibilityTraits = .none
         
         _ = addProductButton.rx.tap
-            .subscribe { _ in self.setAmountView() }
-
+            .subscribe(onNext: { [weak self] in
+                self?.plusButtonTapObserver.onNext(())
+            })
+        bag.insert(
+            editingAmountView.rightButton.rx.tap
+                .subscribe(onNext: { [weak self] in
+                    self?.increaseButtonTapObserver.onNext(())
+                }),
+            editingAmountView.leftButton.rx.tap
+                .subscribe(onNext: { [weak self] in
+                    self?.decreaseButtonTapObserver.onNext(())
+                })
+        )
     }
     
     required init?(coder: NSCoder) {
@@ -125,36 +165,29 @@ extension ProductItemCell {
             target.image.image = UIImage(named: datasource.image)
         }
     }
+    
+    var updateView: Binder<ProductItemEditViewDatasource> {
+        Binder(self) { target, datasource in
+            target.editingAmountView.quantityLabel.text = "\(datasource.quantity)"
+            target.editingAmountView.leftButton.setImage(UIImage(named: datasource.leftButtonImage), for: .normal)
+            if(datasource.showEditView) {
+                target.setAmountView()
+            } else {
+                target.setAddView()
+            }
+        }
+    }
+    
 }
 
 extension ProductItemCell {
     func setAmountView() {
         addProductButton.isHidden = true
-        let editView = ProductItemAmountView()
-        editView.isAccessibilityElement = false
-        
-        let frameX = 5
-        
-        let width = 80
-        
-        editView.frame = CGRect(
-            x: frameX,
-            y: 5,
-            width: width,
-            height: (width / 3)
-        )
-        _ = editView.leftButton.rx.tap
-            .subscribe(onNext: {
-                print("left")
-            }).disposed(by: bag)
-        _ = editView.rightButton.rx.tap
-            .subscribe(onNext: {
-                print("right")
-            }).disposed(by: bag)
-        addSubview(editView)
+        editingAmountView.isHidden = false
     }
     
     func setAddView() {
-        
+        addProductButton.isHidden = false
+        editingAmountView.isHidden = true
     }
 }

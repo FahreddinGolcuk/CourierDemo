@@ -7,6 +7,7 @@
 
 import UIKit
 import Extensions
+import RxSwift
 
 class ProductItemAmountView: UIView {
     let leftButton = MarketProductAmountViewGenerator.createActionButton()
@@ -24,16 +25,22 @@ class ProductItemAmountView: UIView {
     init() {
         super.init(frame: .zero)
         addSubview(stack)
-        leftButton.setImage(UIImage(named: "decreaseAmount"), for: .normal)
         rightButton.setImage(UIImage(named: "increaseAmount"), for: .normal)
-        quantityLabel.text = "1"
         stack.alignFitEdges().activate()
-        
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension Reactive where Base == ProductItemAmountView {
+    var setLeftIcon: Binder<String> {
+        Binder(base) { target, datasource in
+            print(datasource)
+            target.leftButton.setImage(UIImage(named: datasource), for: .normal)
+        }
     }
 }

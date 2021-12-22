@@ -26,6 +26,7 @@ struct MarketProductAmountViewGenerator {
         with(UILabel()) {
             $0.textAlignment = .center
             $0.textColor = .black
+            $0.text = "1"
             $0.font = .boldSystemFont(ofSize: 14.0)
             $0.isOpaque = true
             $0.backgroundColor = UIColor.Theme.fourth

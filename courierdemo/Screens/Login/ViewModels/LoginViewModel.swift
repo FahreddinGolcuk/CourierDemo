@@ -42,7 +42,6 @@ func loginViewModel(input: LoginViewModelInput) -> LoginViewModelOutput {
                 .do(onSuccess: {
                     Current.userName.accept($0.user.name)
                     Current.userId.accept($0.user.id)
-                    Current.cartData.updateBadgeCount(with: 4)
                 })
         }
 

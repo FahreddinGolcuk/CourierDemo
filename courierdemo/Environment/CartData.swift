@@ -26,8 +26,18 @@ struct CartData {
     }
     
     func setBasketInfo(with info: BasketItemInfo) {
-        let dict = [info.productId: info.quantity]
-        basketInfo.accept(dict)
+        var basketDict = basketInfo.value
+        basketDict[info.productId] = info.quantity
+        basketInfo.accept(basketDict)
+        print(basketInfo.value)
+    }
+    
+    func isBasketItem(with productId: String) -> Bool {
+        basketInfo.value[productId] != nil
+    }
+    
+    func getBasketItemQuantity(with productId: String) -> UInt {
+        basketInfo.value[productId] ?? 0
     }
     
 }
