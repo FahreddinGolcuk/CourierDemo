@@ -30,6 +30,7 @@ class ProductDetailViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        bindViewModelOutput()
         navigationController?.addCloseButtonToController(viewController: self)
         view.backgroundColor = .red
         super.viewDidLoad()

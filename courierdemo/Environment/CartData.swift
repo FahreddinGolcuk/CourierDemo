@@ -17,6 +17,10 @@ struct CartData {
         totalItemCount.asObservable()
     }
     
+    var getBasketInfo: [BasketItemInfo] {
+        basketInfo.value.map { BasketItemInfo(productId: $0.key, quantity: $0.value) }
+    }
+    
     var cartBadgeCountValue: UInt {
         totalItemCount.value
     }
@@ -29,7 +33,15 @@ struct CartData {
         var basketDict = basketInfo.value
         basketDict[info.productId] = info.quantity
         basketInfo.accept(basketDict)
-        print(basketInfo.value)
+        totalItemCount.accept(UInt(basketInfo.value.count))
+    }
+    
+    func removeFromBasket(with productId: String) {
+        var basketDict = basketInfo.value
+        basketDict[productId] = nil
+        basketInfo.accept(basketDict)
+        print(productId)
+        totalItemCount.accept(UInt(basketInfo.value.count))
     }
     
     func isBasketItem(with productId: String) -> Bool {

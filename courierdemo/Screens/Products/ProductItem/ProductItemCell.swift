@@ -43,7 +43,6 @@ final class ProductItemCell: UICollectionViewCell {
         $0.font = UIFont.Fonts.boldSmall
         $0.textColor = UIColor.Theme.primary
         $0.textAlignment = .center
-        $0.numberOfLines = 2
     }
     
     private let category = with(UILabel()) {

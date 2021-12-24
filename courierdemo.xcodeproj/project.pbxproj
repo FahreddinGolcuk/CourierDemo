@@ -62,6 +62,8 @@
 		47C5A239276DD6E100BA3103 /* ProductAmountViewGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A238276DD6E100BA3103 /* ProductAmountViewGenerator.swift */; };
 		47C5A23B276F9A5D00BA3103 /* BasketItemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A23A276F9A5D00BA3103 /* BasketItemInfo.swift */; };
 		47C5A24127736AB600BA3103 /* ProductItemEditViewDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A24027736AB600BA3103 /* ProductItemEditViewDatasource.swift */; };
+		47C5A2432774A38D00BA3103 /* PaymentItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A2422774A38D00BA3103 /* PaymentItemTableViewCell.swift */; };
+		47C5A24827751C4900BA3103 /* PaymentItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A24727751C4900BA3103 /* PaymentItemViewModel.swift */; };
 		47DD1A2D2758FA0200487199 /* Extensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47DD1A2C2758FA0200487199 /* Extensions.framework */; };
 		47DD1A2E2758FA0200487199 /* Extensions.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 47DD1A2C2758FA0200487199 /* Extensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		47DD1A5F2758FB3900487199 /* Helpers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47DD1A5E2758FB3900487199 /* Helpers.framework */; };
@@ -154,6 +156,8 @@
 		47C5A238276DD6E100BA3103 /* ProductAmountViewGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductAmountViewGenerator.swift; sourceTree = "<group>"; };
 		47C5A23A276F9A5D00BA3103 /* BasketItemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketItemInfo.swift; sourceTree = "<group>"; };
 		47C5A24027736AB600BA3103 /* ProductItemEditViewDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductItemEditViewDatasource.swift; sourceTree = "<group>"; };
+		47C5A2422774A38D00BA3103 /* PaymentItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentItemTableViewCell.swift; sourceTree = "<group>"; };
+		47C5A24727751C4900BA3103 /* PaymentItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentItemViewModel.swift; sourceTree = "<group>"; };
 		47DD1A2C2758FA0200487199 /* Extensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Extensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47DD1A5E2758FB3900487199 /* Helpers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Helpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E4739B273955E4007B97C4 /* courierdemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = courierdemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +264,7 @@
 		477B8FB827428DE800968541 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				47C5A24627751C2D00BA3103 /* Cell */,
 				47C5A201276A797100BA3103 /* PaymentViewController.swift */,
 				47C5A203276A797D00BA3103 /* PaymentView.swift */,
 				47C5A205276A798D00BA3103 /* PaymentViewModel.swift */,
@@ -280,7 +285,6 @@
 		477B8FBA27428DF900968541 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				47C5A1AA2763B1A800BA3103 /* Products */,
 				47C5A1A92763AC8100BA3103 /* Base */,
 			);
 			path = Home;
@@ -412,8 +416,8 @@
 		47C5A1AA2763B1A800BA3103 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				47C5A1F327641ED100BA3103 /* Helpers */,
 				47C5A1B12763B7D100BA3103 /* ProductItem */,
+				47C5A1F327641ED100BA3103 /* Helpers */,
 				47C5A1AB2763B1C100BA3103 /* ProductsViewController.swift */,
 				47C5A1AD2763B1CE00BA3103 /* ProductsViewModel.swift */,
 				47C5A1AF2763B1D900BA3103 /* ProductsView.swift */,
@@ -512,6 +516,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		47C5A24627751C2D00BA3103 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				47C5A2422774A38D00BA3103 /* PaymentItemTableViewCell.swift */,
+				47C5A24727751C4900BA3103 /* PaymentItemViewModel.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		47E47392273955E4007B97C4 = {
 			isa = PBXGroup;
 			children = (
@@ -564,6 +577,7 @@
 		47E473B62739570D007B97C4 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				47C5A1AA2763B1A800BA3103 /* Products */,
 				47C5A228276CE98B00BA3103 /* ProductDetail */,
 				47C5A20D276A845800BA3103 /* Campaign */,
 				477B8FBB27428E0500968541 /* Register */,
@@ -775,6 +789,8 @@
 				47C5A1F527641EE700BA3103 /* ProductItemLayoutHelper.swift in Sources */,
 				47C5A24127736AB600BA3103 /* ProductItemEditViewDatasource.swift in Sources */,
 				477B8FC82745B66300968541 /* SearchViewController.swift in Sources */,
+				47C5A24827751C4900BA3103 /* PaymentItemViewModel.swift in Sources */,
+				47C5A2432774A38D00BA3103 /* PaymentItemTableViewCell.swift in Sources */,
 				47C5A1AC2763B1C100BA3103 /* ProductsViewController.swift in Sources */,
 				47C5A211276A84A300BA3103 /* CampaignView.swift in Sources */,
 				47C5A230276CE9DF00BA3103 /* ProductDetailViewModel.swift in Sources */,

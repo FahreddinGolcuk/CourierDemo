@@ -9,10 +9,34 @@ import UIKit
 
 class SearchViewController: UIViewController {
     private lazy var viewSource = SearchView()
+    
+    private lazy var bestProducts: ProductsViewController = {
+        ProductsViewController(
+            viewModel: productsViewModel
+        )
+    }()
+    
+    override func loadView() {
+        view = viewSource
+        view.backgroundColor = .white
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Search"
-        view = viewSource
-        // Do any additional setup after loading the view.
+        addChildren()
+    }
+}
+
+extension SearchViewController {
+    func addChildren() {
+        let controllers = [
+            bestProducts
+        ]
+        controllers.forEach {
+            addChildController(controller: $0) {
+                viewSource.stackView.addArrangedSubview($0)
+            }
+        }
     }
 }

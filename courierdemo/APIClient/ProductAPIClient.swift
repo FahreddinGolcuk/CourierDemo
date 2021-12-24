@@ -8,31 +8,54 @@
 import RxSwift
 import Entities
 
-private let baseURL =  "https://runningcourierapi.herokuapp.com/product/favorites"
+private let baseURL =  "https://runningcourierapi.herokuapp.com/"
+
+fileprivate let favoriteProductURL: String = baseURL + "product/favorites"
+fileprivate let getProductURL: String = baseURL + "product/getProduct"
 
 struct ProductAPIClient {
     var favoriteProducts: () -> Single<[Product]>
-    
+    var getProduct: (_ productId: String) -> Single<Product>
     init(
-        favoriteProducts: @escaping () -> Single<[Product]> = { .never() }
+        favoriteProducts: @escaping () -> Single<[Product]> = { .never() },
+        getProduct: @escaping (_ productId: String) -> Single<Product> = { productId in .never() }
     ) {
         self.favoriteProducts = favoriteProducts
+        self.getProduct = getProduct
     }
 }
 
 extension ProductAPIClient {
     static let live = Self(
-        favoriteProducts: favoriteProducts
+        favoriteProducts: favoriteProducts,
+        getProduct: getProduct
     )
 }
 
 private extension ProductAPIClient {
     static func favoriteProducts() -> Single<[Product]> {
         return Single<[Product]>.create { observer -> Disposable in
-            Request(with: baseURL, httpMethod: .get) { (result: Result<[Product], NetworkError>) in
+            Request(with: favoriteProductURL, httpMethod: .get) { (result: Result<[Product], NetworkError>) in
                 switch result {
-                case .success(let categories):
-                    observer(.success(categories))
+                case .success(let products):
+                    observer(.success(products))
+                case .failure(let error):
+                    print(error)
+                    observer(.failure(error))
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
+    static func getProduct(_ productId: String) -> Single<Product> {
+        return Single<Product>.create { observer -> Disposable in
+            Request(with: getProductURL, httpMethod: .post, body: [
+                "productId": productId
+            ]) { (result: Result<Product, NetworkError>) in
+                switch result {
+                case .success(let product):
+                    observer(.success(product))
                 case .failure(let error):
                     print(error)
                     observer(.failure(error))

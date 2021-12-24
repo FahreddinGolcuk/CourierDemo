@@ -19,6 +19,7 @@ class CourierTabbarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        delegate = self
         bindViewModelOutputs()
         configureTabBarItems()
     }
@@ -36,7 +37,29 @@ class CourierTabbarController: UITabBarController {
     
 }
 
+extension CourierTabbarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        guard let index = viewControllers?.firstIndex(of: viewController) else { return false }
+        reloadCartIfNeeded(for: index)
+        return true
+    }
+}
+
 extension CourierTabbarController {
+    
+    func reloadCartIfNeeded(for index: Int) {
+        let cartNavController = viewControllers?[index] as? UINavigationController
+        let cartController = cartNavController?.viewControllers.first as? PaymentViewController
+        guard
+            let navController = cartNavController,
+            let controller = cartController
+        else { return }
+        let currentIndex = selectedIndex
+        let isSameTab = index == currentIndex
+        let onlyRoot = navController.viewControllers.count == 1
+        guard isSameTab || onlyRoot else { return }
+        controller.reloadObserver.onNext(())
+    }
     
     override func setViewControllers(_ viewControllers: [UIViewController]?, animated: Bool) {
         super.setViewControllers(viewControllers, animated: animated)
@@ -58,7 +81,7 @@ extension CourierTabbarController {
         
         let searchNVC = createTabbarItem(for: SearchViewController(), tabBarItemTitle: "Search", image: UIImage(systemName: "magnifyingglass")!, selectedImage: UIImage(systemName: "magnifyingglass.circle.fill")!, tag: .Search)
         
-        let paymentNVC = createTabbarItem(for: PaymentViewController(), tabBarItemTitle: "Payment", image: UIImage(systemName: "bag")!, selectedImage: UIImage(systemName: "bag.fill")!, tag: .Payment)
+        let paymentNVC = createTabbarItem(for: PaymentViewController(viewModel: paymentViewModel), tabBarItemTitle: "Payment", image: UIImage(systemName: "bag")!, selectedImage: UIImage(systemName: "bag.fill")!, tag: .Payment)
         
         let campaignNVC = createTabbarItem(for: CampaignViewController(), tabBarItemTitle: "Campaign", image: UIImage(systemName: "flame")!, selectedImage: UIImage(systemName: "flame.fill")!, tag: .Campaign)
         

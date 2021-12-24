@@ -74,6 +74,7 @@ private func decreaseAmount(
         .map {
             var leftButtonImage = ""
             if(Current.cartData.getBasketItemQuantity(with: inputs.product._id) == 1) {
+                Current.cartData.removeFromBasket(with: inputs.product._id)
                 return ProductItemEditViewDatasource(leftButtonImage: "", quantity: 0, showEditView: false)
             } else {
                 Current.cartData.setBasketInfo(with: BasketItemInfo(productId: inputs.product._id, quantity: Current.cartData.getBasketItemQuantity(with: inputs.product._id) - 1))
