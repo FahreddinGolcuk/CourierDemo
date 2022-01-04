@@ -74,13 +74,7 @@ extension PaymentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         true
     }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if ( editingStyle == .delete ) {
-            tableView.reloadData()
-        }
-    }
-    
+        
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         12
     }
@@ -91,14 +85,18 @@ extension PaymentViewController {
         let output = viewModel(input)
         
         bag.insert(
-            output.cartProductData.drive(rx.setCartInfo)
+            output.cartProductData.drive(rx.setCartInfo),
+            output.cartDeleted.drive(rx.cartDeleted)
         )
     }
     
     var input: PaymentViewModelInput {
+        let indexDeleted = viewSource.tableView.rx.itemDeleted.asObservable()
+        
         return PaymentViewModelInput(
             viewDidLoad: .just(()),
-            reloadEvent: reloadEvent.startWith(())
+            reloadEvent: reloadEvent.startWith(()),
+            indexDeleted: indexDeleted
         )
     }
 }
@@ -116,6 +114,13 @@ extension Reactive where Base == PaymentViewController {
     var setCartInfo: Binder<[BasketItemInfo]> {
         Binder(base) { target, datasource in
             target.cartInfo = datasource
+            target.viewSource.tableView.reloadData()
+        }
+    }
+    
+    var cartDeleted: Binder<Void> {
+        Binder(base) { target, datasource in
+            target.cartInfo = Current.cartData.getBasketInfo
             target.viewSource.tableView.reloadData()
         }
     }

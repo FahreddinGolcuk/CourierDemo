@@ -40,7 +40,6 @@ struct CartData {
         var basketDict = basketInfo.value
         basketDict[productId] = nil
         basketInfo.accept(basketDict)
-        print(productId)
         totalItemCount.accept(UInt(basketInfo.value.count))
     }
     

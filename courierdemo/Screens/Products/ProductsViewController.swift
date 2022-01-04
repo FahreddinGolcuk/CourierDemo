@@ -16,6 +16,8 @@ final class ProductsViewController: UIViewController, ProductsNavigator {
     private let viewModel: ProductsViewModel
     fileprivate var productList: [Product] = []
     
+    private let (viewDidAppearObserver, viewDidAppearEvent) = Observable<Void>.pipe()
+    
     private(set) lazy var viewSource = with(ProductsView()) {
         $0.collectionView.dataSource = self
     }
@@ -32,6 +34,11 @@ final class ProductsViewController: UIViewController, ProductsNavigator {
     init(viewModel: @escaping ProductsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewDidAppearObserver.onNext(())
     }
     
     required init?(coder: NSCoder) {
@@ -70,13 +77,14 @@ extension ProductsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: ProductItemCell = collectionView.dequeue(at: indexPath)
         cell.populate.onNext(productList[indexPath.row])
-        let inputs = ProductItemViewModelInput(increaseButtonTapped: cell.increaseButtonTappedEvent, decreaseButtonTapped: cell.decreaseButtonTappedEvent, addProductButtonTapped: cell.plusButtonTappedEvent, product: productList[indexPath.row])
+        let inputs = ProductItemViewModelInput(increaseButtonTapped: cell.increaseButtonTappedEvent, decreaseButtonTapped: cell.decreaseButtonTappedEvent, addProductButtonTapped: cell.plusButtonTappedEvent, product: productList[indexPath.row],viewDidAppearEvent: viewDidAppearEvent)
         let output = productItemViewModel(inputs)
         
         cell.bag.insert(
             output.increaseAmount.drive(cell.updateView),
             output.decreaseAmount.drive(cell.updateView),
-            output.addTappedAmount.drive(cell.updateView)
+            output.addTappedAmount.drive(cell.updateView),
+            output.updateView.drive(cell.updateView)
         )
         return cell
     }

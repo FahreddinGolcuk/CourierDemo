@@ -42,7 +42,6 @@ private func getProduct(
 ) -> (Driver<Product>, Driver<Error>) {
     Observable.of(input.viewDidLoad)
       .apiCall(activity) { _ -> Single<Product> in
-          print(7771,input.productId)
-          return input.productApi.getProduct(input.productId)
+          input.productApi.getProduct(input.productId)
       }
 }

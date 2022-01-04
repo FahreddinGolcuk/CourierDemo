@@ -15,6 +15,7 @@ struct ProductItemViewModelInput {
     var decreaseButtonTapped: Observable<Void>
     var addProductButtonTapped: Observable<Void>
     var product: Product
+    var viewDidAppearEvent: Observable<Void>
 }
 
 struct ProductItemViewModelOutput {
@@ -22,6 +23,7 @@ struct ProductItemViewModelOutput {
     let increaseAmount: Driver<ProductItemEditViewDatasource>
     let decreaseAmount: Driver<ProductItemEditViewDatasource>
     let addTappedAmount: Driver<ProductItemEditViewDatasource>
+    let updateView: Driver<ProductItemEditViewDatasource>
 }
 
 typealias ProductItemViewModel = (ProductItemViewModelInput) -> ProductItemViewModelOutput
@@ -35,7 +37,8 @@ func productItemViewModel(
         isLoading: activity.asDriver(),
         increaseAmount: increaseAmount(inputs),
         decreaseAmount: decreaseAmount(inputs),
-        addTappedAmount: tappedAddProductButton(inputs)
+        addTappedAmount: tappedAddProductButton(inputs),
+        updateView: update(inputs)
     )
 }
 
@@ -85,5 +88,13 @@ private func decreaseAmount(
                 return ProductItemEditViewDatasource(leftButtonImage: leftButtonImage, quantity: Current.cartData.getBasketItemQuantity(with: inputs.product._id), showEditView: true)
             }
         }
+        .asDriver(onErrorDriveWith: .never())
+}
+
+func update(
+    _ inputs: ProductItemViewModelInput
+) -> Driver<ProductItemEditViewDatasource> {
+    inputs.viewDidAppearEvent
+        .map { ProductItemEditViewDatasource(leftButtonImage: Current.cartData.getBasketItemQuantity(with: inputs.product._id) == 1 ? "trash" : "decreaseAmount", quantity: Current.cartData.getBasketItemQuantity(with: inputs.product._id), showEditView: Current.cartData.getBasketItemQuantity(with: inputs.product._id) > 0) }
         .asDriver(onErrorDriveWith: .never())
 }

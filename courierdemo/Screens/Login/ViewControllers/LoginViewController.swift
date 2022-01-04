@@ -87,6 +87,7 @@ private extension LoginViewController {
 extension Reactive where Base == LoginViewController {
     var loginButtonTapped: Binder<UserResponse> {
         Binder(base) { target, item in
+            target.view.backgroundColor = .gray
             print("Tikladim",item)
         }
     }
