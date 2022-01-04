@@ -60,12 +60,13 @@ private func increaseAmount(
 ) -> Driver<ProductItemEditViewDatasource> {
     inputs.increaseButtonTapped
         .map {
-            var leftButtonImage = ""
-            Current.cartData.setBasketInfo(with: BasketItemInfo(productId: inputs.product._id, quantity: Current.cartData.getBasketItemQuantity(with: inputs.product._id) + 1))
-            if(Current.cartData.getBasketItemQuantity(with: inputs.product._id) == 1) {
+            var leftButtonImage = "decreaseAmount"
+            let quantity = Current.cartData.getBasketItemQuantity(with: inputs.product._id)
+            Current.cartData.setBasketInfo(with: BasketItemInfo(productId: inputs.product._id, quantity: quantity + 1))
+            if(quantity == 1) {
                 leftButtonImage = "trash"
-            } else {leftButtonImage = "decreaseAmount"}
-            return ProductItemEditViewDatasource(leftButtonImage: leftButtonImage, quantity: Current.cartData.getBasketItemQuantity(with: inputs.product._id), showEditView: true)
+            }
+            return ProductItemEditViewDatasource(leftButtonImage: leftButtonImage, quantity: quantity, showEditView: true)
         }
         .asDriver(onErrorDriveWith: .never())
 }
@@ -75,17 +76,18 @@ private func decreaseAmount(
 ) -> Driver<ProductItemEditViewDatasource> {
     inputs.decreaseButtonTapped
         .map {
-            var leftButtonImage = ""
-            if(Current.cartData.getBasketItemQuantity(with: inputs.product._id) == 1) {
+            let quantity = Current.cartData.getBasketItemQuantity(with: inputs.product._id)
+            var leftButtonImage = "decreaseAmount"
+            if(quantity == 1) {
                 Current.cartData.removeFromBasket(with: inputs.product._id)
                 return ProductItemEditViewDatasource(leftButtonImage: "", quantity: 0, showEditView: false)
             } else {
-                Current.cartData.setBasketInfo(with: BasketItemInfo(productId: inputs.product._id, quantity: Current.cartData.getBasketItemQuantity(with: inputs.product._id) - 1))
+                Current.cartData.setBasketInfo(with: BasketItemInfo(productId: inputs.product._id, quantity: quantity - 1))
                 
-                if(Current.cartData.getBasketItemQuantity(with: inputs.product._id) == 1) {
+                if(quantity == 1) {
                     leftButtonImage = "trash"
-                } else {leftButtonImage = "decreaseAmount"}
-                return ProductItemEditViewDatasource(leftButtonImage: leftButtonImage, quantity: Current.cartData.getBasketItemQuantity(with: inputs.product._id), showEditView: true)
+                }
+                return ProductItemEditViewDatasource(leftButtonImage: leftButtonImage, quantity: quantity, showEditView: true)
             }
         }
         .asDriver(onErrorDriveWith: .never())
@@ -95,6 +97,8 @@ func update(
     _ inputs: ProductItemViewModelInput
 ) -> Driver<ProductItemEditViewDatasource> {
     inputs.viewDidAppearEvent
-        .map { ProductItemEditViewDatasource(leftButtonImage: Current.cartData.getBasketItemQuantity(with: inputs.product._id) == 1 ? "trash" : "decreaseAmount", quantity: Current.cartData.getBasketItemQuantity(with: inputs.product._id), showEditView: Current.cartData.getBasketItemQuantity(with: inputs.product._id) > 0) }
+        .map {
+            let quantity = Current.cartData.getBasketItemQuantity(with: inputs.product._id)
+            return ProductItemEditViewDatasource(leftButtonImage: quantity == 1 ? "trash" : "decreaseAmount", quantity: quantity, showEditView: quantity > 0) }
         .asDriver(onErrorDriveWith: .never())
 }
