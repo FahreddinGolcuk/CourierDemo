@@ -14,7 +14,30 @@ class SearchView: UIView {
     let scrollView = with(UIScrollView(frame: .zero)) {
         $0.alwaysBounceVertical = true
     }
-    let stackView = vStack(space: 8)()
+    
+    private(set) lazy var title = with(UILabel()) {
+        $0.text = "Are You Hungry"
+        $0.font = UIFont.Fonts.boldMedium
+    }
+    
+    private(set) lazy var subtitle = with(UILabel()) {
+        $0.text = "What you want eat now bro?"
+        $0.font = UIFont.Fonts.thinSmall
+    }
+    
+    private(set) lazy var searchBar = with(UISearchBar(frame: .zero)) {
+        $0.enablesReturnKeyAutomatically = true
+        $0.returnKeyType = .search
+        $0.placeholder = "Search"
+    }
+    
+    private(set) lazy var stackView = vStack(
+    space: 8
+    )(
+    title,
+    subtitle,
+    searchBar
+    )
     
     init() {
         super.init(frame: .zero)
@@ -33,7 +56,6 @@ extension SearchView {
         
         addSubview(scrollView)
         scrollView.addSubview(stackView)
-
         [
             scrollView.alignFitEdges(),
             stackView.alignFitEdges(),

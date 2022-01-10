@@ -17,7 +17,7 @@ class HomeViewController: UIViewController, HomeNavigator {
     
     private lazy var bestProducts: ProductsViewController = {
         ProductsViewController(
-            viewModel: productsViewModel
+            viewModel: productsViewModel, type: .favorite
         )
     }()
     

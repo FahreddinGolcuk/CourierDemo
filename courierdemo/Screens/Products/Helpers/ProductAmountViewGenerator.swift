@@ -14,7 +14,6 @@ struct MarketProductAmountViewGenerator {
             $0.isOpaque = true
             $0.backgroundColor = .white
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.widthAnchor.constraint(equalTo: $0.heightAnchor).activate()
             if UIAccessibility.isVoiceOverRunning {
                 $0.isAccessibilityElement = true
                 $0.accessibilityTraits = .button
@@ -31,7 +30,6 @@ struct MarketProductAmountViewGenerator {
             $0.isOpaque = true
             $0.backgroundColor = UIColor.Theme.fourth
             $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.widthAnchor.constraint(equalTo: $0.heightAnchor).activate()
             $0.isAccessibilityElement = true
         }
     }

@@ -6,15 +6,17 @@
 //
 
 import RxSwift
-import Entities
+import struct Entities.Category
 
-private let baseURL =  "https://runningcourierapi.herokuapp.com/category/get-categories"
+private let baseURL =  "https://runningcourierapi.herokuapp.com/"
+
+fileprivate let getCategoriesURL: String = baseURL + "category/get-categories"
 
 struct CategoryAPIClient {
-    var categories: () -> Single<[CategoryItem]>
+    var categories: () -> Single<[Category]>
     
     init(
-        categories: @escaping () -> Single<[CategoryItem]> = { .never() }
+        categories: @escaping () -> Single<[Category]> = { .never() }
     ) {
         self.categories = categories
     }
@@ -27,9 +29,9 @@ extension CategoryAPIClient {
 }
 
 private extension CategoryAPIClient {
-    static func categories() -> Single<[CategoryItem]> {
-        return Single<[CategoryItem]>.create { observer -> Disposable in
-            Request(with: baseURL, httpMethod: .get) { (result: Result<[CategoryItem], NetworkError>) in
+    static func categories() -> Single<[Category]> {
+        return Single<[Category]>.create { observer -> Disposable in
+            Request(with: getCategoriesURL, httpMethod: .get) { (result: Result<[Category], NetworkError>) in
                 switch result {
                 case .success(let categories):
                     observer(.success(categories))

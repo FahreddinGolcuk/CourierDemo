@@ -14,8 +14,9 @@ import Extensions
 final class ProductsViewController: UIViewController, ProductsNavigator {
     let bag = DisposeBag()
     private let viewModel: ProductsViewModel
+    fileprivate var productType: ProductTypes = .normal
     fileprivate var productList: [Product] = []
-    
+    private let selectedCategory: Observable<CategoryListDatasource>
     private let (viewDidAppearObserver, viewDidAppearEvent) = Observable<Void>.pipe()
     
     private(set) lazy var viewSource = with(ProductsView()) {
@@ -31,8 +32,10 @@ final class ProductsViewController: UIViewController, ProductsNavigator {
         view = viewSource
     }
 
-    init(viewModel: @escaping ProductsViewModel) {
+    init(viewModel: @escaping ProductsViewModel, type: ProductTypes, selectedCategory: Observable<CategoryListDatasource> = .never()) {
         self.viewModel = viewModel
+        self.productType = type
+        self.selectedCategory = selectedCategory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,7 +55,7 @@ private extension ProductsViewController {
         
         bag.insert(
             outputs.setHeight.drive(viewSource.rx.setHeight),
-            outputs.setDatasource.drive(rx.setDataSource),
+            outputs.setDatasource.drive(rx.setDatasourceProducts),
             outputs.showProductDetail.drive(rx.showProductDetail)
         )
     }
@@ -64,7 +67,9 @@ private extension ProductsViewController {
         
         return ProductsViewModelInput(
             viewDidLoad: .just(()),
-            productSelected: productSelected
+            productSelected: productSelected,
+            productType: productType,
+            selectedCategory: selectedCategory
         )
     }
 }
@@ -97,16 +102,18 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
 }
 
 private extension Reactive where Base == ProductsViewController {
-    var setDataSource: Binder<[Product]> {
-        Binder(base) { target, datasource in
-            target.productList = datasource
-            target.viewSource.collectionView.reloadData()
-        }
-    }
-    
     var showProductDetail: Binder<IndexPath> {
         Binder(base) { target, datasource in
             target.showProductDetail(data: target.productList[datasource.row])
+        }
+    }
+}
+
+extension Reactive where Base == ProductsViewController {
+    var setDatasourceProducts: Binder<[Product]> {
+        Binder(base) { target, datasource in
+            target.productList = datasource
+            target.viewSource.collectionView.reloadData()
         }
     }
 }

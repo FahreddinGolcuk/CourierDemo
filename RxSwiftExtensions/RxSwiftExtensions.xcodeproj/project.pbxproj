@@ -12,6 +12,7 @@
 		4714CA11275F696C00FE79C1 /* ActivityToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4714CA10275F696C00FE79C1 /* ActivityToken.swift */; };
 		4714CA13275F6A1500FE79C1 /* ObservableConvertibleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4714CA12275F6A1500FE79C1 /* ObservableConvertibleType.swift */; };
 		47C5A23E2771239400BA3103 /* Observable + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A23D2771239400BA3103 /* Observable + Extension.swift */; };
+		47C5A25B27882A0F00BA3103 /* Driver + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C5A25A27882A0F00BA3103 /* Driver + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		4714CA10275F696C00FE79C1 /* ActivityToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityToken.swift; sourceTree = "<group>"; };
 		4714CA12275F6A1500FE79C1 /* ObservableConvertibleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableConvertibleType.swift; sourceTree = "<group>"; };
 		47C5A23D2771239400BA3103 /* Observable + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable + Extension.swift"; sourceTree = "<group>"; };
+		47C5A25A27882A0F00BA3103 /* Driver + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Driver + Extension.swift"; sourceTree = "<group>"; };
 		77F07A22D00B4A39978D164A /* Pods_RxSwiftExtensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftExtensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A66E6711D7D761D10E2DD1C8 /* Pods-RxSwiftExtensions.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftExtensions.release.xcconfig"; path = "Target Support Files/Pods-RxSwiftExtensions/Pods-RxSwiftExtensions.release.xcconfig"; sourceTree = "<group>"; };
 		C0259550DB8EF0F15D0A6FE2 /* Pods-RxSwiftExtensions.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftExtensions.debug.xcconfig"; path = "Target Support Files/Pods-RxSwiftExtensions/Pods-RxSwiftExtensions.debug.xcconfig"; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				4714CA10275F696C00FE79C1 /* ActivityToken.swift */,
 				4714CA12275F6A1500FE79C1 /* ObservableConvertibleType.swift */,
 				47C5A23D2771239400BA3103 /* Observable + Extension.swift */,
+				47C5A25A27882A0F00BA3103 /* Driver + Extension.swift */,
 			);
 			path = RxSwiftExtensions;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47C5A25B27882A0F00BA3103 /* Driver + Extension.swift in Sources */,
 				47C5A23E2771239400BA3103 /* Observable + Extension.swift in Sources */,
 				4714CA13275F6A1500FE79C1 /* ObservableConvertibleType.swift in Sources */,
 				4714CA11275F696C00FE79C1 /* ActivityToken.swift in Sources */,
