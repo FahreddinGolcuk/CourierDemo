@@ -62,7 +62,7 @@ final class ProductItemCell: UICollectionViewCell {
         $0.textColor = UIColor.Theme.primary
         $0.textAlignment = .center
     }
-    
+        
     lazy var stackView = vStack(
     space: 8
     )(
@@ -115,11 +115,11 @@ final class ProductItemCell: UICollectionViewCell {
         isAccessibilityElement = true
         accessibilityTraits = .none
         
-        _ = addProductButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.plusButtonTapObserver.onNext(())
-            })
         bag.insert(
+            addProductButton.rx.tap
+                .subscribe(onNext: { [weak self] in
+                    self?.plusButtonTapObserver.onNext(())
+                }),
             editingAmountView.rightButton.rx.tap
                 .subscribe(onNext: { [weak self] in
                     self?.increaseButtonTapObserver.onNext(())
@@ -162,11 +162,13 @@ extension ProductItemCell {
             target.category.text = "Burger"
             target.price.text = "$ \(datasource.price)"
             target.image.image = UIImage(named: datasource.image)
+            target.editingAmountView.quantityLabel.text = "\(Current.cartData.getBasketItemQuantity(with: datasource._id))"
         }
     }
     
     var updateView: Binder<ProductItemEditViewDatasource> {
         Binder(self) { target, datasource in
+            print(123,datasource,target.title.text)
             target.editingAmountView.quantityLabel.text = "\(datasource.quantity)"
             target.editingAmountView.leftButton.setImage(UIImage(named: datasource.leftButtonImage), for: .normal)
             if(datasource.showEditView) {
@@ -174,6 +176,27 @@ extension ProductItemCell {
             } else {
                 target.setAddView()
             }
+        }
+    }
+    
+    //MARK: - when change the category, trigger bag and remove subscribe contents.
+    var bagClear: Binder<Void> {
+        Binder(self) { target, _  in
+            target.bag = DisposeBag()
+            target.addProductButton.rx.tap
+                .subscribe(onNext: { [weak self] in
+                    self?.plusButtonTapObserver.onNext(())
+                }).disposed(by: target.bag)
+            target.bag.insert(
+                target.editingAmountView.rightButton.rx.tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.increaseButtonTapObserver.onNext(())
+                    }),
+                target.editingAmountView.leftButton.rx.tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.decreaseButtonTapObserver.onNext(())
+                    })
+            )
         }
     }
     

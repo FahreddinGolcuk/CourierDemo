@@ -15,7 +15,7 @@ struct ProductItemViewModelInput {
     var decreaseButtonTapped: Observable<Void>
     var addProductButtonTapped: Observable<Void>
     var product: Product
-    var viewDidAppearEvent: Observable<Void>
+    var selectedCategory: Observable<CategoryListDatasource>
 }
 
 struct ProductItemViewModelOutput {
@@ -24,6 +24,7 @@ struct ProductItemViewModelOutput {
     let decreaseAmount: Driver<ProductItemEditViewDatasource>
     let addTappedAmount: Driver<ProductItemEditViewDatasource>
     let updateView: Driver<ProductItemEditViewDatasource>
+    let changedSelectedCategory: Driver<Void>
 }
 
 typealias ProductItemViewModel = (ProductItemViewModelInput) -> ProductItemViewModelOutput
@@ -38,7 +39,8 @@ func productItemViewModel(
         increaseAmount: increaseAmount(inputs),
         decreaseAmount: decreaseAmount(inputs),
         addTappedAmount: tappedAddProductButton(inputs),
-        updateView: update(inputs)
+        updateView: update(inputs),
+        changedSelectedCategory: inputs.selectedCategory.map { _ in }.asDriver(onErrorDriveWith: .never())
     )
 }
 
@@ -96,7 +98,8 @@ private func decreaseAmount(
 func update(
     _ inputs: ProductItemViewModelInput
 ) -> Driver<ProductItemEditViewDatasource> {
-    inputs.viewDidAppearEvent
+    Observable.merge(inputs.increaseButtonTapped,inputs.decreaseButtonTapped,inputs.addProductButtonTapped)
+        .debug("\(Current.cartData.getBasketItemQuantity(with: inputs.product._id ) ) \(inputs.product.name) ")
         .map {
             let quantity = Current.cartData.getBasketItemQuantity(with: inputs.product._id)
             return ProductItemEditViewDatasource(leftButtonImage: quantity == 1 ? "trash" : "decreaseAmount", quantity: quantity, showEditView: quantity > 0) }
