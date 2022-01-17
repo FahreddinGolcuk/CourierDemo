@@ -39,7 +39,6 @@ class ProductItemAmountView: UIView {
 extension Reactive where Base == ProductItemAmountView {
     var setLeftIcon: Binder<String> {
         Binder(base) { target, datasource in
-            print(datasource)
             target.leftButton.setImage(UIImage(named: datasource), for: .normal)
         }
     }

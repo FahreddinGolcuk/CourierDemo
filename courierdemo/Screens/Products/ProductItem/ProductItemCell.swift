@@ -159,7 +159,7 @@ extension ProductItemCell {
         Binder(self) { target, datasource in
             target.title.text = datasource.name
             target.calorie.text = "\(datasource.calorie) cal"
-            target.category.text = "Burger"
+            target.category.text = "\(datasource._id)"
             target.price.text = "$ \(datasource.price)"
             target.image.image = UIImage(named: datasource.image)
             target.editingAmountView.quantityLabel.text = "\(Current.cartData.getBasketItemQuantity(with: datasource._id))"
@@ -168,7 +168,6 @@ extension ProductItemCell {
     
     var updateView: Binder<ProductItemEditViewDatasource> {
         Binder(self) { target, datasource in
-            print(123,datasource,target.title.text)
             target.editingAmountView.quantityLabel.text = "\(datasource.quantity)"
             target.editingAmountView.leftButton.setImage(UIImage(named: datasource.leftButtonImage), for: .normal)
             if(datasource.showEditView) {

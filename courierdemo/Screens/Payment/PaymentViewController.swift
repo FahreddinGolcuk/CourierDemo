@@ -47,7 +47,6 @@ final class PaymentViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print(cartInfo)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -114,6 +113,13 @@ extension Reactive where Base == PaymentViewController {
     var setCartInfo: Binder<[BasketItemInfo]> {
         Binder(base) { target, datasource in
             target.cartInfo = datasource
+            if( datasource.isEmpty ) {
+                target.viewSource.emptyView.isHidden = false
+                target.viewSource.tableView.isHidden = true
+            } else {
+                target.viewSource.emptyView.isHidden = true
+                target.viewSource.tableView.isHidden = false
+            }
             target.viewSource.tableView.reloadData()
         }
     }
@@ -121,6 +127,13 @@ extension Reactive where Base == PaymentViewController {
     var cartDeleted: Binder<Void> {
         Binder(base) { target, datasource in
             target.cartInfo = Current.cartData.getBasketInfo
+            if( Current.cartData.getBasketInfo.isEmpty ) {
+                target.viewSource.emptyView.isHidden = false
+                target.viewSource.tableView.isHidden = true
+            } else {
+                target.viewSource.emptyView.isHidden = true
+                target.viewSource.tableView.isHidden = false
+            }
             target.viewSource.tableView.reloadData()
         }
     }

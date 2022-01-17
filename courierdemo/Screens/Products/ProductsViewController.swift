@@ -17,7 +17,8 @@ final class ProductsViewController: UIViewController, ProductsNavigator {
     fileprivate var productType: ProductTypes = .normal
     fileprivate var productList: [Product] = []
     private let selectedCategory: Observable<CategoryListDatasource>
-    private let (viewDidAppearObserver, viewDidAppearEvent) = Observable<Void>.pipe()
+    private let (viewDidDisappearObserver, viewDidDisappearEvent) = Observable<Void>.pipe()
+    
     
     private(set) lazy var viewSource = with(ProductsView()) {
         $0.collectionView.dataSource = self
@@ -31,6 +32,11 @@ final class ProductsViewController: UIViewController, ProductsNavigator {
     override func loadView() {
         view = viewSource
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        viewDidDisappearObserver.onNext(())
+    }
 
     init(viewModel: @escaping ProductsViewModel, type: ProductTypes, selectedCategory: Observable<CategoryListDatasource> = .never()) {
         self.viewModel = viewModel
@@ -41,7 +47,7 @@ final class ProductsViewController: UIViewController, ProductsNavigator {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewDidAppearObserver.onNext(())
+        viewSource.collectionView.reloadData()
     }
     
     required init?(coder: NSCoder) {
@@ -81,15 +87,19 @@ extension ProductsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: ProductItemCell = collectionView.dequeue(at: indexPath)
-        cell.populate.onNext(productList[indexPath.row])
-        let inputs = ProductItemViewModelInput(increaseButtonTapped: cell.increaseButtonTappedEvent, decreaseButtonTapped: cell.decreaseButtonTappedEvent, addProductButtonTapped: cell.plusButtonTappedEvent, product: productList[indexPath.row],selectedCategory: selectedCategory)
+        let item = productList[indexPath.item]
+        cell.populate.onNext(item)
+        let quantity = Current.cartData.getBasketItemQuantity(with: item._id)
+        cell.updateView.onNext(ProductItemEditViewDatasource(leftButtonImage: quantity == 1 ? "trash" : "decreaseAmount", quantity: quantity, showEditView: quantity > 0))
+        let inputs = ProductItemViewModelInput(increaseButtonTapped: cell.increaseButtonTappedEvent, decreaseButtonTapped: cell.decreaseButtonTappedEvent, addProductButtonTapped: cell.plusButtonTappedEvent, product: item, selectedCategory: selectedCategory,viewDidDisapperEvent: viewDidDisappearEvent)
         let output = productItemViewModel(inputs)
         cell.bag.insert(
             output.increaseAmount.drive(cell.updateView),
             output.decreaseAmount.drive(cell.updateView),
             output.addTappedAmount.drive(cell.updateView),
             output.changedSelectedCategory.drive(cell.bagClear),
-            output.updateView.drive(cell.updateView)
+            output.updateView.drive(cell.updateView),
+            output.viewDidDisappear.drive(cell.bagClear)
         )
         return cell
     }
@@ -104,7 +114,7 @@ extension ProductsViewController: UICollectionViewDelegateFlowLayout {
 private extension Reactive where Base == ProductsViewController {
     var showProductDetail: Binder<IndexPath> {
         Binder(base) { target, datasource in
-            target.showProductDetail(data: target.productList[datasource.row])
+            target.showProductDetail(data: target.productList[datasource.item])
         }
     }
 }

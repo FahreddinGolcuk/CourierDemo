@@ -11,6 +11,11 @@ import Helpers
 import Extensions
 
 final class PaymentView: UIView {
+    
+    private(set) lazy var emptyView = with(BasketEmptyView()) {
+        $0.isHidden = true
+    }
+    
     private(set) lazy var tableView = with(UITableView()) {
         $0.backgroundColor = UIColor.Theme.bg2
         $0.estimatedRowHeight = 60.0
@@ -20,7 +25,8 @@ final class PaymentView: UIView {
     private(set) lazy var stackView = vStack(
         space: 8
     )(
-        tableView
+        tableView,
+        emptyView
     )
     
     init() {

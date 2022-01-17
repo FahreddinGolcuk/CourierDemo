@@ -81,7 +81,7 @@ extension PaymentItemTableViewCell {
     var populate: Binder<Product> {
         Binder(self) { target, datasource in
             let quantity = Current.cartData.getBasketItemQuantity(with: datasource._id)
-            target.name.text = datasource._id
+            target.name.text = datasource.name
             target.calorie.text = "\(datasource.calorie) cal"
             target.price.text = "\(datasource.price * Double(quantity)) TL"
             target.image.image = UIImage(named: datasource.image)
