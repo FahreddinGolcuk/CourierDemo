@@ -12,6 +12,12 @@ import Extensions
 
 final class PaymentView: UIView {
     
+    let trashBarButtonItem = with(UIBarButtonItem()) {
+        $0.image = UIImage(named: "trash")
+        $0.style = .plain
+        $0.accessibilityLabel = "Sepeti boşalt"
+    }
+    
     private(set) lazy var emptyView = with(BasketEmptyView()) {
         $0.isHidden = true
     }

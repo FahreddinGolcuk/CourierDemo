@@ -14,12 +14,14 @@ struct PaymentViewModelInput {
     var viewDidLoad: Observable<Void> = .never()
     var reloadEvent: Observable<Void> = .never()
     var indexDeleted: Observable<IndexPath> = .never()
+    var trashTapped: Observable<Void> = .never()
 }
 
 struct PaymentViewModelOutput {
     let isLoading: Driver<Bool>
     let cartProductData: Driver<[BasketItemInfo]>
     let cartDeleted: Driver<Void>
+    let cartRemoved: Driver<Void>
 }
 
 typealias PaymentViewModel = (PaymentViewModelInput) -> PaymentViewModelOutput
@@ -32,7 +34,8 @@ func paymentViewModel(
     return PaymentViewModelOutput(
         isLoading: activity.asDriver(onErrorDriveWith: .never()),
         cartProductData: cartProductData(input),
-        cartDeleted: cartDeleted(input)
+        cartDeleted: cartDeleted(input),
+        cartRemoved: cartRemove(input)
     )
 }
 
@@ -51,5 +54,13 @@ func cartProductData(
 ) -> Driver<[BasketItemInfo]> {
     Observable.merge(input.viewDidLoad, input.reloadEvent)
         .map { Current.cartData.getBasketInfo }
+        .asDriver(onErrorDriveWith: .never())
+}
+
+func cartRemove(
+    _ input: PaymentViewModelInput
+) -> Driver<Void> {
+    input.trashTapped
+        .map { Current.cartData.removeBasketInfo() }
         .asDriver(onErrorDriveWith: .never())
 }

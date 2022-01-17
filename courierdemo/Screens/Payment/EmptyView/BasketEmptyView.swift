@@ -7,11 +7,26 @@
 
 import UIKit
 import Helpers
+import Extensions
 final class BasketEmptyView: UIView {
-    let title = with(UILabel()) {
-        $0.text = "Sepetiniz boş"
-        $0.textColor = .red
+    
+    let image = with(UIImageView()) {
+        $0.image = UIImage(named: "app-logo")
+        $0.contentMode = .scaleAspectFit
     }
+    
+    let title = with(UILabel()) {
+        $0.text = "Your basket is empty"
+        $0.font = UIFont.Fonts.boldMedium
+    }
+    
+    lazy var stack = vStack(
+        alignment: .center,
+        backgroundColor: .white
+    )(
+        image,
+        title
+    )
     
     init() {
         super.init(frame: .zero)
@@ -25,9 +40,12 @@ final class BasketEmptyView: UIView {
 
 extension BasketEmptyView {
     func arrangeView() {
-        addSubview(title)
+        addSubview(stack)
         [
-            title.alignFitEdges()
+            stack.alignFitEdges(),
+            [
+                image.alignHeight(screenHeight * 0.4)
+            ]
         ]
         .flatMap { $0 }
         .activate()

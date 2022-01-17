@@ -85,17 +85,19 @@ extension PaymentViewController {
         
         bag.insert(
             output.cartProductData.drive(rx.setCartInfo),
-            output.cartDeleted.drive(rx.cartDeleted)
+            output.cartDeleted.drive(rx.cartDeleted),
+            output.cartRemoved.drive(rx.cartDeleted)
         )
     }
     
     var input: PaymentViewModelInput {
         let indexDeleted = viewSource.tableView.rx.itemDeleted.asObservable()
-        
+        let trashTapped = viewSource.trashBarButtonItem.rx.tap.asObservable()
         return PaymentViewModelInput(
             viewDidLoad: .just(()),
             reloadEvent: reloadEvent.startWith(()),
-            indexDeleted: indexDeleted
+            indexDeleted: indexDeleted,
+            trashTapped: trashTapped
         )
     }
 }
@@ -119,6 +121,12 @@ extension Reactive where Base == PaymentViewController {
             } else {
                 target.viewSource.emptyView.isHidden = true
                 target.viewSource.tableView.isHidden = false
+            }
+            
+            if !datasource.isEmpty {
+                target.navigationItem.leftBarButtonItem = target.viewSource.trashBarButtonItem
+            } else {
+                target.navigationItem.leftBarButtonItem = nil
             }
             target.viewSource.tableView.reloadData()
         }

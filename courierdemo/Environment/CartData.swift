@@ -51,4 +51,8 @@ struct CartData {
         basketInfo.value[productId] ?? 0
     }
     
+    func removeBasketInfo() {
+        basketInfo.accept([:])
+        totalItemCount.accept(0)
+    }
 }
