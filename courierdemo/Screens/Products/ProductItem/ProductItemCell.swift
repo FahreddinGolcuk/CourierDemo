@@ -43,14 +43,10 @@ final class ProductItemCell: UICollectionViewCell {
         $0.font = UIFont.Fonts.boldSmall
         $0.textColor = UIColor.Theme.primary
         $0.textAlignment = .center
+        $0.numberOfLines = 2
+        
     }
-    
-    private let category = with(UILabel()) {
-        $0.font = UIFont.Fonts.thinSmall
-        $0.textColor = UIColor.Theme.third
-        $0.textAlignment = .center
-    }
-    
+
     private let calorie = with(UILabel()) {
         $0.font = UIFont.Fonts.thinSmall
         $0.textColor = UIColor.Theme.title
@@ -68,7 +64,6 @@ final class ProductItemCell: UICollectionViewCell {
     )(
         image,
         title,
-        category,
         calorie,
         price
     )
@@ -159,7 +154,6 @@ extension ProductItemCell {
         Binder(self) { target, datasource in
             target.title.text = datasource.name
             target.calorie.text = "\(datasource.calorie) cal"
-            target.category.text = "\(datasource._id)"
             target.price.text = "$ \(datasource.price)"
             target.image.image = UIImage(named: datasource.image)
             target.editingAmountView.quantityLabel.text = "\(Current.cartData.getBasketItemQuantity(with: datasource._id))"

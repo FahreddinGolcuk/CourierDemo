@@ -14,6 +14,11 @@ class PaymentItemTableViewCell: UITableViewCell {
 
     private(set) var bag = DisposeBag()
     
+    let editingAmountView = ProductItemAmountView()
+    
+    var (increaseTapObserver, increaseTapEvent) = Observable<Void>.pipe()
+    var (decreaseTapObserver, decreaseTapEvent) = Observable<Void>.pipe()
+        
     private let name = with(UILabel()) {
         $0.textColor = .gray
         $0.font = UIFont.Fonts.boldSmall
@@ -21,11 +26,12 @@ class PaymentItemTableViewCell: UITableViewCell {
     
     private let calorie = with(UILabel()) {
         $0.textColor = .black
+        $0.font = UIFont.Fonts.thinVerySmall
     }
     
     private let price = with(UILabel()) {
         $0.textColor = UIColor.Theme.primary
-        $0.font = UIFont.Fonts.boldMedium
+        $0.font = UIFont.Fonts.thinSmall
     }
     
     private var image = with(UIImageView()) {
@@ -33,7 +39,7 @@ class PaymentItemTableViewCell: UITableViewCell {
     }
     
     lazy var infoStack = vStack(
-        space: 12
+        space: 2
     )(
         name,
         calorie,
@@ -44,21 +50,20 @@ class PaymentItemTableViewCell: UITableViewCell {
         space: 8
     )(
         image,
-        infoStack
+        infoStack,
+        editingAmountView
     )
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
         contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 8
         contentView.addSubview(stack)
+        stack.alignment = .center
         [
-            stack.alignFitEdges(),
-            [
-                image.alighWidth(screenWidth * 0.3),
-                infoStack.alignHeight(screenHeight * 0.15)
-            ]
+            image.alignSize(width: 75, height: 60),
+            editingAmountView.alignSize(width: 80, height: 40),
+            stack.alignEdges(leading: 15, trailing: -15, top: 10, bottom: -10),
         ]
         .flatMap { $0 }
         .activate()
@@ -66,13 +71,14 @@ class PaymentItemTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let margins = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
-             contentView.frame = contentView.frame.inset(by: margins)
-             contentView.layer.cornerRadius = 8
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        bag = DisposeBag()
     }
 }
 
@@ -83,8 +89,29 @@ extension PaymentItemTableViewCell {
             let quantity = Current.cartData.getBasketItemQuantity(with: datasource._id)
             target.name.text = datasource.name
             target.calorie.text = "\(datasource.calorie) cal"
-            target.price.text = "\(datasource.price * Double(quantity)) TL"
+            target.price.text = "\(datasource.price) TL"
             target.image.image = UIImage(named: datasource.image)
+            target.editingAmountView.quantityLabel.text = "\(quantity)"
+            
+            target.editingAmountView.rightButton.rx.tap
+                .subscribe(onNext: { [weak target] in
+                    target?.increaseTapObserver.onNext(())
+                })
+                .disposed(by: target.bag)
+            
+            target.editingAmountView.leftButton.rx.tap
+                .subscribe(onNext: { [weak target] in
+                    target?.decreaseTapObserver.onNext(())
+                })
+                .disposed(by: target.bag)
+        }
+    }
+    
+    var updateAmountView: Binder<PaymentItemAmountViewDatasource> {
+        Binder(self) { target, datasource in
+            print(datasource)
+            target.editingAmountView.quantityLabel.text = "\(datasource.quantity)"
+            target.editingAmountView.leftButton.setImage(UIImage(named: datasource.leftButtonImage), for: .normal)
         }
     }
 }

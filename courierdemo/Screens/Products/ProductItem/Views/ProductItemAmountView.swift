@@ -22,10 +22,12 @@ class ProductItemAmountView: UIView {
         rightButton
     )
     
+    //MARK: -Product list item cell
     init() {
         super.init(frame: .zero)
         addSubview(stack)
         rightButton.setImage(UIImage(named: "increaseAmount"), for: .normal)
+        leftButton.setImage(UIImage(named: "trash"), for: .normal)
         stack.alignFitEdges().activate()
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale

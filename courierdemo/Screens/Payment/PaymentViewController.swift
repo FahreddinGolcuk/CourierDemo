@@ -62,10 +62,12 @@ extension PaymentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: PaymentItemTableViewCell = tableView.dequeue(at: indexPath)
         cell.layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
-        let inputs = PaymentItemViewModelInput(viewDidLoad: .just(()), productId: cartInfo[indexPath.row].productId)
+        let inputs = PaymentItemViewModelInput(viewDidLoad: .just(()), productId: cartInfo[indexPath.row].productId,increaseTap: cell.increaseTapEvent, decreaseTap: cell.decreaseTapEvent)
         let output = paymentItemViewModel(inputs)
         cell.bag.insert(
-            output.populate.drive(cell.populate)
+            output.populate.drive(cell.populate),
+            output.increase.drive(cell.updateAmountView),
+            output.decrease.drive(cell.updateAmountView)
         )
         return cell
     }
@@ -86,7 +88,7 @@ extension PaymentViewController {
         bag.insert(
             output.cartProductData.drive(rx.setCartInfo),
             output.cartDeleted.drive(rx.cartDeleted),
-            output.cartRemoved.drive(rx.cartDeleted)
+            output.cartRemoved.drive(rx.deneme)
         )
     }
     
@@ -145,8 +147,49 @@ extension Reactive where Base == PaymentViewController {
             target.viewSource.tableView.reloadData()
         }
     }
+    
+    var deneme: Binder<Void> {
+        Binder(base) { target, datasource in
+            let alertController = UIAlertController(
+                title: Constants.trashTitle,
+                message: Constants.trashMessage,
+                preferredStyle: .actionSheet
+            )
+            let logoutAction = UIAlertAction(
+                title: Constants.trashTitle,
+                style: .destructive,
+                handler: { [weak target] _ -> Void in
+                    guard target != nil else { return }
+                    target!.cartInfo = Current.cartData.getBasketInfo
+                    if( Current.cartData.getBasketInfo.isEmpty ) {
+                        target!.viewSource.emptyView.isHidden = false
+                        target!.viewSource.tableView.isHidden = true
+                        target!.navigationItem.leftBarButtonItem = nil
+                    } else {
+                        target!.viewSource.emptyView.isHidden = true
+                        target!.viewSource.tableView.isHidden = false
+                        target!.navigationItem.leftBarButtonItem = target!.viewSource.trashBarButtonItem
+                    }
+                    target!.viewSource.tableView.reloadData()
+                })
+            let dismissAction = UIAlertAction(
+                title: Constants.trashCancel,
+                style: .cancel,
+                handler: { Void -> Void in
+                    alertController.dismiss(animated: true, completion: nil)
+                })
+            
+            alertController.addAction(logoutAction)
+            alertController.addAction(dismissAction)
+            
+            target.present(alertController, animated: true, completion: nil)
+        }
+    }
 }
 
 private enum Constants {
    static let delete = "Delete"
+   static let trashTitle = "Remove"
+   static let trashMessage = "Are you sure to remove your basket?"
+   static let trashCancel = "Cancel"
 }

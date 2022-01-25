@@ -80,7 +80,7 @@ private extension ProductsView {
     
     func calculateHeight(itemCount: UInt) -> CGFloat {
         guard itemCount > 0 else { return 0 }
-        let divider = isIphone5SizeWidth ? 3 : 4
+        let divider = isIphone5SizeWidth ? 2 : 3
         let rowCount = Int(ceil(Double(itemCount) / Double(divider)))
         let totalVerticalSpacing = itemSpacing * CGFloat(rowCount - 1)
         let totalHeight = (CGFloat(rowCount) * itemSize.height) + totalVerticalSpacing
