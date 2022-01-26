@@ -8,19 +8,20 @@
 import UIKit
 import RxSwift
 import Helpers
+import Entities
 
 final class PaymentViewController: UIViewController {
-    
+    var bag = DisposeBag()
     fileprivate var cartInfo: [BasketItemInfo] = []
     
     let (reloadObserver, reloadEvent) = Observable<Void>.pipe()
+    
+    let orderConfirmation = OrderConfirmationViewController(viewModel: orderConfirmationViewModel(_:))
     
     private(set) lazy var viewSource = with(PaymentView()) {
         $0.tableView.dataSource = self
         $0.tableView.delegate = self
     }
-    
-    private let bag = DisposeBag()
     
     private let viewModel: PaymentViewModel
     
@@ -43,6 +44,7 @@ final class PaymentViewController: UIViewController {
         super.viewDidLoad()
         bindViewModel()
         title = "Payment"
+        addChildren()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -64,10 +66,12 @@ extension PaymentViewController: UITableViewDataSource {
         cell.layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
         let inputs = PaymentItemViewModelInput(viewDidLoad: .just(()), productId: cartInfo[indexPath.row].productId,increaseTap: cell.increaseTapEvent, decreaseTap: cell.decreaseTapEvent)
         let output = paymentItemViewModel(inputs)
+        
         cell.bag.insert(
             output.populate.drive(cell.populate),
             output.increase.drive(cell.updateAmountView),
-            output.decrease.drive(cell.updateAmountView)
+            output.decrease.drive(cell.updateAmountView),
+            output.calculatePriceActions.drive(reloadObserver)
         )
         return cell
     }
@@ -88,7 +92,8 @@ extension PaymentViewController {
         bag.insert(
             output.cartProductData.drive(rx.setCartInfo),
             output.cartDeleted.drive(rx.cartDeleted),
-            output.cartRemoved.drive(rx.deneme)
+            output.cartRemoved.drive(rx.deneme),
+            output.cartPriceAction.drive(rx.setTotalPrice)
         )
     }
     
@@ -148,6 +153,12 @@ extension Reactive where Base == PaymentViewController {
         }
     }
     
+    var setTotalPrice: Binder<TotalPriceResponse> {
+        Binder(base) { target, datasource in
+            target.orderConfirmation.viewSource.totalPrice.text = "$ \(String(format: "%.2f", datasource.price))"
+        }
+    }
+    
     var deneme: Binder<Void> {
         Binder(base) { target, datasource in
             let alertController = UIAlertController(
@@ -183,6 +194,19 @@ extension Reactive where Base == PaymentViewController {
             alertController.addAction(dismissAction)
             
             target.present(alertController, animated: true, completion: nil)
+        }
+    }
+}
+
+extension PaymentViewController {
+    func addChildren() {
+        let controllers = [
+            orderConfirmation
+        ]
+        controllers.forEach {
+            addChildController(controller: $0) {
+                viewSource.stackView.addArrangedSubview($0)
+            }
         }
     }
 }

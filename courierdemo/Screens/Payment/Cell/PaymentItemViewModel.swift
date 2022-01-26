@@ -16,6 +16,7 @@ struct PaymentItemViewModelInput {
     let productApi: ProductAPIClient = .live
     var increaseTap: Observable<Void> = .never()
     var decreaseTap: Observable<Void> = .never()
+    var reloadEvent: Observable<Void> = .never()
 }
 
 struct PaymentItemViewModelOutput {
@@ -23,6 +24,7 @@ struct PaymentItemViewModelOutput {
     let populate: Driver<Product>
     let increase: Driver<PaymentItemAmountViewDatasource>
     let decrease: Driver<PaymentItemAmountViewDatasource>
+    let calculatePriceActions: Driver<Void>
 }
 
 typealias PaymentItemViewModel = (PaymentItemViewModelInput) -> PaymentItemViewModelOutput
@@ -33,12 +35,15 @@ func paymentItemViewModel(
     let activity = ActivityIndicator()
     
     let (responseProduct, _) = getProduct(inputs, activity: activity)
+    let mergedActions = Observable.merge(inputs.increaseTap, inputs.decreaseTap)
+        .asDriver(onErrorDriveWith: .never())
     
     return PaymentItemViewModelOutput(
         isLoading: activity.asDriver(onErrorDriveWith: .never()),
         populate: responseProduct,
         increase: increaseAmount(inputs),
-        decrease: decreaseAmount(inputs)
+        decrease: decreaseAmount(inputs),
+        calculatePriceActions: mergedActions
     )
 }
 

@@ -18,7 +18,7 @@ class PaymentItemTableViewCell: UITableViewCell {
     
     var (increaseTapObserver, increaseTapEvent) = Observable<Void>.pipe()
     var (decreaseTapObserver, decreaseTapEvent) = Observable<Void>.pipe()
-        
+    
     private let name = with(UILabel()) {
         $0.textColor = .gray
         $0.font = UIFont.Fonts.boldSmall

@@ -23,14 +23,12 @@ final class PaymentView: UIView {
     }
     
     private(set) lazy var tableView = with(UITableView()) {
-        $0.backgroundColor = UIColor.Theme.bg2
+        $0.backgroundColor = UIColor.Theme.lightGrey
         $0.estimatedRowHeight = 60.0
         $0.register(PaymentItemTableViewCell.self, forCellReuseIdentifier: PaymentItemTableViewCell.viewIdentifier)
     }
     
-    private(set) lazy var stackView = vStack(
-        space: 8
-    )(
+    private(set) lazy var stackView = vStack()(
         tableView,
         emptyView
     )

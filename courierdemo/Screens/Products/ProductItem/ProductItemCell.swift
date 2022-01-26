@@ -12,14 +12,10 @@ import Extensions
 
 final class ProductItemCell: UICollectionViewCell {
     private(set) var bag = DisposeBag()
-    private let increaseButtonTapObserver: AnyObserver<Void>
-    let increaseButtonTappedEvent: Observable<Void>
-    
-    private let decreaseButtonTapObserver: AnyObserver<Void>
-    let decreaseButtonTappedEvent: Observable<Void>
 
-    private let plusButtonTapObserver: AnyObserver<Void>
-    let plusButtonTappedEvent: Observable<Void>
+    let (increaseButtonTapObserver, increaseButtonTappedEvent) = Observable<Void>.pipe()
+    let (decreaseButtonTapObserver, decreaseButtonTappedEvent) = Observable<Void>.pipe()
+    let (plusButtonTapObserver, plusButtonTappedEvent) = Observable<Void>.pipe()
     
     var editingAmountView = ProductItemAmountView()
     
@@ -69,10 +65,6 @@ final class ProductItemCell: UICollectionViewCell {
     )
     
     override init(frame: CGRect) {
-        (increaseButtonTapObserver, increaseButtonTappedEvent) = Observable<Void>.pipe()
-        (decreaseButtonTapObserver, decreaseButtonTappedEvent) = Observable<Void>.pipe()
-        (plusButtonTapObserver, plusButtonTappedEvent) = Observable<Void>.pipe()
-        
         super.init(frame: frame)
         addSubview(containerView)
         

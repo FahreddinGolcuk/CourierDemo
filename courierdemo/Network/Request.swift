@@ -7,7 +7,7 @@
 
 import Foundation
 
-public func Request<T: Decodable>(with url: String, httpMethod: HTTPMethod = .get, body: [String: String] = [:], urlParameter: String = "", completion: @escaping (Result<T, NetworkError>) -> Void) {
+public func Request<T: Decodable>(with url: String, httpMethod: HTTPMethod = .get, body: [String: Any] = [:], urlParameter: String = "", completion: @escaping (Result<T, NetworkError>) -> Void) {
     guard let url = URL(string: httpMethod == .get ? url + urlParameter : url) else {
         completion(.failure(.urlError))
         return
