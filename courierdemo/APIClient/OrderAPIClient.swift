@@ -9,7 +9,7 @@ import RxSwift
 import struct Entities.TotalPriceRequest
 import struct Entities.TotalPriceResponse
 
-private let baseURL =  "http://localhost:8080/"
+private let baseURL =  "https://runningcourierapi.herokuapp.com/"
 
 fileprivate let getOrderPriceURL: String = baseURL + "order/cart-price"
 
@@ -34,9 +34,8 @@ private extension OrderAPIClient {
         return Single<TotalPriceResponse>.create { observer -> Disposable in
             Request(with: getOrderPriceURL, httpMethod: .post, body: ["products": TotalPriceRequest.encode(input: cart) as Any]) { (result: Result<TotalPriceResponse, NetworkError>) in
                 switch result {
-                case .success(let categories):
-                    print(categories)
-                    observer(.success(categories))
+                case .success(let totalPrice):
+                    observer(.success(totalPrice))
                 case .failure(let error):
                     print(error.localizedDescription)
                     observer(.failure(error))

@@ -27,10 +27,11 @@ class ProductItemAmountView: UIView {
         super.init(frame: .zero)
         addSubview(stack)
         rightButton.setImage(UIImage(named: "increaseAmount"), for: .normal)
-        leftButton.setImage(UIImage(named: "trash"), for: .normal)
         stack.alignFitEdges().activate()
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
+        layer.borderWidth = 1.0
+        layer.borderColor = UIColor.Theme.primary.cgColor
     }
     
     required init?(coder: NSCoder) {

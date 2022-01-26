@@ -91,6 +91,11 @@ extension PaymentItemTableViewCell {
             target.calorie.text = "\(datasource.calorie) cal"
             target.price.text = "\(datasource.price) TL"
             target.image.image = UIImage(named: datasource.image)
+            if(quantity == 1) {
+                target.editingAmountView.leftButton.setImage(UIImage(named: "trash"), for: .normal)
+            } else {
+                target.editingAmountView.leftButton.setImage(UIImage(named: "decreaseAmount"), for: .normal)
+            }
             target.editingAmountView.quantityLabel.text = "\(quantity)"
             
             target.editingAmountView.rightButton.rx.tap
@@ -109,7 +114,6 @@ extension PaymentItemTableViewCell {
     
     var updateAmountView: Binder<PaymentItemAmountViewDatasource> {
         Binder(self) { target, datasource in
-            print(datasource)
             target.editingAmountView.quantityLabel.text = "\(datasource.quantity)"
             target.editingAmountView.leftButton.setImage(UIImage(named: datasource.leftButtonImage), for: .normal)
         }

@@ -76,7 +76,7 @@ class OrderConfirmationView: UIView {
     }
     
     private(set) lazy var totalPrice = with(UILabel()) {
-        $0.text = "\(Current.cartData.getBasketInfo.count)"
+        $0.text = "$ 0.0"
         $0.font = UIFont.Fonts.thinMedium
     }
     

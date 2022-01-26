@@ -22,8 +22,8 @@ struct PaymentViewModelInput {
 struct PaymentViewModelOutput {
     let isLoading: Driver<Bool>
     let cartProductData: Driver<[BasketItemInfo]>
-    let cartDeleted: Driver<Void>
-    let cartRemoved: Driver<Void>
+    let cartDeleted: Driver<TotalPriceResponse>
+    let cartRemoved: Driver<TotalPriceResponse>
     let cartPriceAction: Driver<TotalPriceResponse>
 }
 
@@ -34,12 +34,13 @@ func paymentViewModel(
 ) -> PaymentViewModelOutput {
     let activity = ActivityIndicator()
     let (response, _) = cartPriceAction(input, activity)
-    
+    let (responseRemove, _) = cartRemove(input, activity)
+    let (responseDelete, _) = cartDeleted(input, activity)
     return PaymentViewModelOutput(
         isLoading: activity.asDriver(onErrorDriveWith: .never()),
         cartProductData: cartProductData(input),
-        cartDeleted: cartDeleted(input),
-        cartRemoved: cartRemove(input),
+        cartDeleted: responseDelete,
+        cartRemoved: responseRemove,
         cartPriceAction: response
     )
 }
@@ -55,19 +56,26 @@ func cartPriceAction(
           cart.forEach { item in
               totalPriceRequest.append(TotalPriceRequest(productId: item.productId, quantity: Int(item.quantity)))
           }
-          print(totalPriceRequest)
           return input.orderApi.totalPrice(totalPriceRequest)
       }
 }
 
 func cartDeleted(
-    _ input: PaymentViewModelInput
-) -> Driver<Void> {
+    _ input: PaymentViewModelInput,
+    _ activity: ActivityIndicator
+) ->  (Driver<TotalPriceResponse>, Driver<Error>) {
     input.indexDeleted
         .map { index in
             Current.cartData.removeFromBasket(with: Current.cartData.getBasketInfo[index.row].productId)
         }
-        .asDriver(onErrorDriveWith: .never())
+        .apiCall(activity) { _ -> Single<TotalPriceResponse> in
+            let cart = Current.cartData.getBasketInfo
+            var totalPriceRequest: [TotalPriceRequest] = []
+            cart.forEach { item in
+                totalPriceRequest.append(TotalPriceRequest(productId: item.productId, quantity: Int(item.quantity)))
+            }
+            return input.orderApi.totalPrice(totalPriceRequest)
+        }
 }
 
 func cartProductData(
@@ -79,9 +87,17 @@ func cartProductData(
 }
 
 func cartRemove(
-    _ input: PaymentViewModelInput
-) -> Driver<Void> {
+    _ input: PaymentViewModelInput,
+    _ activity: ActivityIndicator
+) -> (Driver<TotalPriceResponse>, Driver<Error>) {
     input.trashTapped
-        .map { Current.cartData.removeBasketInfo() }
-        .asDriver(onErrorDriveWith: .never())
+      .map { Current.cartData.removeBasketInfo() }
+      .apiCall(activity) { _ -> Single<TotalPriceResponse> in
+          let cart = Current.cartData.getBasketInfo
+          var totalPriceRequest: [TotalPriceRequest] = []
+          cart.forEach { item in
+              totalPriceRequest.append(TotalPriceRequest(productId: item.productId, quantity: Int(item.quantity)))
+          }
+          return input.orderApi.totalPrice(totalPriceRequest)
+      }
 }

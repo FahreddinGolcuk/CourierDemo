@@ -80,7 +80,7 @@ private func decreaseAmount(
         .map {
             let quantity = Current.cartData.getBasketItemQuantity(with: inputs.productId)
             var leftButtonImage = "decreaseAmount"
-            if(quantity == 1) {
+            if(quantity == 1 || quantity == 0) {
                 Current.cartData.removeFromBasket(with: inputs.productId)
                 return PaymentItemAmountViewDatasource(leftButtonImage: "decreaseAmount", quantity: 0)
             } else {

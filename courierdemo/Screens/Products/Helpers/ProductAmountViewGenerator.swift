@@ -28,7 +28,7 @@ struct MarketProductAmountViewGenerator {
             $0.text = "1"
             $0.font = .boldSystemFont(ofSize: 14.0)
             $0.isOpaque = true
-            $0.backgroundColor = UIColor.Theme.fourth
+            $0.backgroundColor = UIColor.Theme.inactive
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.isAccessibilityElement = true
         }
