@@ -10,7 +10,10 @@ import Helpers
 
 class CampaignView: UIView {
     private let campaignText = with(UILabel()){
-        $0.text = "Campaign"
+        $0.text = "This section is coming very soon."
+        $0.font = UIFont.Fonts.thinLarge
+        $0.textColor = UIColor.Theme.title
+        $0.textAlignment = .center
     }
     
     init() {

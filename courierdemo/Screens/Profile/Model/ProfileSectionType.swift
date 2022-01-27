@@ -76,13 +76,12 @@ enum ProfileSectionType: CaseIterable {
 
 // MARK: - Constants
 private enum Constants {
-    static let profile = "Bilgilerim"
-    static let previousOrders = "Önceki Siparişlerim"
-    static let favorites = "Favorilerim"
-    static let adresses = "Adreslerim"
-    static let creditCards = "Kredi Kartlarım"
-    static let aboutApp = "Uygulama Hakkında"
-    static let coupons = "Kuponlarım"
+    static let profile = "My Informations"
+    static let previousOrders = "Previous Orders"
+    static let favorites = "My Favourites"
+    static let adresses = "Adresses"
+    static let creditCards = "Credit Cards"
+    static let aboutApp = "About Application"
     static let logOut = "Çıkış"
     static let liveHelp = "Canlı Yardım"
 }

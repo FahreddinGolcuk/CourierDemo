@@ -17,7 +17,8 @@ final class BasketEmptyView: UIView {
     
     let title = with(UILabel()) {
         $0.text = "Your basket is empty"
-        $0.font = UIFont.Fonts.boldMedium
+        $0.font = UIFont.Fonts.thinLarge
+        $0.textColor = UIColor.Theme.title
     }
     
     lazy var stack = vStack(
@@ -42,12 +43,13 @@ extension BasketEmptyView {
     func arrangeView() {
         addSubview(stack)
         [
-            stack.alignFitEdges(),
+            stack.alignEdges(leading: 26, trailing: -26, top: 0, bottom: 0),
             [
-                image.alignHeight(screenHeight * 0.4)
+                image.alignHeight(screenHeight * 0.2)
             ]
         ]
         .flatMap { $0 }
         .activate()
+        backgroundColor = .white
     }
 }

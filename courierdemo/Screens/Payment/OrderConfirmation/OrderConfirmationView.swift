@@ -66,7 +66,7 @@ class OrderConfirmationView: UIView {
             .defaultLow,
             for: .horizontal
         )
-        $0.backgroundColor = .red
+        $0.backgroundColor = UIColor.Theme.fourth
     }
     
     private(set) lazy var totalPriceTitle = with(UILabel()) {
@@ -114,7 +114,9 @@ class OrderConfirmationView: UIView {
                 creditCardImage.alighWidth(screenWidth * 0.1)
             ],
             [
-                approveCartButton.alignHeight(50)
+                approveCartButton.alignHeight(50),
+                approveCartButton.alighWidth(screenWidth * 0.4),
+                approveCartButton.alignLeading(to: totalPriceTitle)
             ]
         ]
         .flatMap { $0 }
