@@ -9,8 +9,21 @@ import UIKit
 import Helpers
 
 class ProfileView: UIView {
-    private let profileTitle = with(UILabel()) {
-        $0.text = "Profile"
+    // MARK: - Properties
+    let tableView = with(UITableView()) {
+        $0.estimatedRowHeight = 45.0
+        $0.register(
+            ProfileItemCell.self,
+            forCellReuseIdentifier: ProfileItemCell.viewIdentifier
+        )
+        $0.register(
+            LiveHelpCell.self,
+            forCellReuseIdentifier: LiveHelpCell.viewIdentifier
+        )
+        $0.register(
+            LogoutCell.self,
+            forCellReuseIdentifier: LogoutCell.viewIdentifier
+        )
     }
     
     init() {
@@ -25,14 +38,7 @@ class ProfileView: UIView {
 
 private extension ProfileView {
     func arrangeViews() {
-        [
-           profileTitle
-        ].forEach(addSubview)
-        
-        [
-            profileTitle.alignFitEdges()
-        ]
-        .flatMap { $0 }
-        .activate()
+        addSubview(tableView)
+        tableView.alignFitEdges().activate()
     }
 }

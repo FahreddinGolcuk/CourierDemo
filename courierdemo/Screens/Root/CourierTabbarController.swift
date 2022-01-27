@@ -85,7 +85,7 @@ extension CourierTabbarController {
         
         let campaignNVC = createTabbarItem(for: CampaignViewController(), tabBarItemTitle: "Campaign", image: UIImage(systemName: "flame")!, selectedImage: UIImage(systemName: "flame.fill")!, tag: .Campaign)
         
-        let profileNVC = createTabbarItem(for: ProfileViewController(), tabBarItemTitle: "Profile", image: UIImage(systemName: "person")!, selectedImage: UIImage(systemName: "person.fill")!, tag: .Profile)
+        let profileNVC = createTabbarItem(for: ProfileViewController(viewModel: profileViewModel), tabBarItemTitle: "Profile", image: UIImage(systemName: "person")!, selectedImage: UIImage(systemName: "person.fill")!, tag: .Profile)
         return [loginNVC, searchNVC, paymentNVC, campaignNVC, profileNVC]
     }
     
