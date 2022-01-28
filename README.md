@@ -35,9 +35,9 @@ Courier demo is an application that serves as a single company. It has membershi
 
 ## Previews 
 
-| Home Screen | Search Screen | Payment Screen |   
-| --- | --- | --- | 
-| ![Preview](gifs/1.gif) | ![Preview](gifs/2.gif) | ![Preview](gifs/3.gif) | 
+| Home Screen | Search Screen | Payment Screen | Product Detail Screen | Profile Screen |
+| --- | --- | --- | --- | --- | 
+| ![Preview](gifs/1.gif) | ![Preview](gifs/2.gif) | ![Preview](gifs/3.gif) | ![Preview](gifs/4.gif) | ![Preview](gifs/5.gif) | 
 
 ## License
 ```
