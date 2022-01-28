@@ -17,7 +17,6 @@ Courier demo is an application that serves as a single company. It has membershi
 
 - Swift
 - RxSwift
-- Alamofire
 - MVVM
 - Nodejs
 - Express
