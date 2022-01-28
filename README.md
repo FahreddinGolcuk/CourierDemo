@@ -33,6 +33,12 @@ Courier demo is an application that serves as a single company. It has membershi
 
 - Password: 123
 
+## Previews 
+
+| Home Screen | Search Screen | Payment Screen |   
+| --- | --- | --- | 
+| ![Preview](gifs/1.gif) | ![Preview](gifs/2.gif) | ![Preview](gifs/3.gif) | 
+
 ## License
 ```
 Copyright (c) 2021 Fahreddin GÖLCÜK
